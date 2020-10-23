@@ -1,6 +1,7 @@
 package com.springproject.beautysaloon.model;
 
 public enum Permission {
+    CLIENT_READ("client:read"),
     DEVELOPERS_READ("developers:read"),
     DEVELOPERS_WRITE("developers:write");
 

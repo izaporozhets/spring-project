@@ -16,6 +16,7 @@ public class User {
     private int rating;
     @Column(name ="speciality_id")
     private int specialityId;
+
     @Column(name ="visits")
     private int visits;
     @Column(name ="email")
