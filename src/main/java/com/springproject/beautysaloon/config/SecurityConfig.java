@@ -1,5 +1,6 @@
 package com.springproject.beautysaloon.config;
 
+import com.springproject.beautysaloon.security.JwtAuthenticationSuccessHandler;
 import com.springproject.beautysaloon.security.JwtConfigurer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -11,6 +12,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
 @Configuration
 @EnableWebSecurity
@@ -30,11 +32,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .authorizeRequests()
                 .antMatchers("/api/v1/auth/login").permitAll()
-                .antMatchers("/api/v1/admin").permitAll()
-                .antMatchers("/auth/**").permitAll()
-                .antMatchers("/api/v1/admin/**").permitAll()
+                .antMatchers("/auth/login").permitAll()
                 .anyRequest().authenticated().and().apply(jwtConfigurer)
-                .and().formLogin().loginPage("/auth/login").defaultSuccessUrl("/auth/success");
+                .and().formLogin().loginPage("/auth/login").successHandler(myAuthenticationSuccessHandler());
     }
 
     @Bean
@@ -46,7 +46,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Bean
     protected PasswordEncoder passwordEncoder(){
         return new BCryptPasswordEncoder(12);
+    }
 
+    @Bean
+    public AuthenticationSuccessHandler myAuthenticationSuccessHandler(){
+        return new JwtAuthenticationSuccessHandler();
     }
 
 }
