@@ -1,22 +1,81 @@
+
+<style>
+    body{
+        background-size: cover;
+    }
+    .login{
+        width: 600px;
+        margin-top: 100px;
+    }
+
+    .login .loginForm{
+        background: rgba(0, 0, 0, .6) url("./pages/background-loginpage.jpg");
+    }
+
+    .login label{
+        font-size: 16px;
+        color: #ccc;
+    }
+
+    .login input{
+        font-size: 20px !important;
+    }
+
+    .login button:hover{
+        padding: 0 40px;
+    }
+
+</style>
+
 <html lang="en">
 <head>
     <meta charset="utf-8">
     <title>Login Customer</title>
+
+
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!--Import materialize.css-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <!-- Compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <!--Let browser know website is optimized for mobile-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 </head>
 <body>
-<div class="container">
-    <form class="form-signin" method="POST" action="/api/v1/auth/login">
-        <h2 class="form-signin-heading">Login</h2>
-        <p>
-            <label for="username">Username</label>
-            <input type="text" id="username" name="username" class="form-control" placeholder="Username" required>
-        </p>
-        <p>
-            <label for="password">Password</label>
-            <input type="password" id="password" name="password" class="form-control" placeholder="Password" required>
-        </p>
-        <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
-    </form>
+<div class="row login" id="login">
+    <div class="col s12 14 offset-14">
+        <div class="card">
+
+            <form class="loginForm" id="loginForm" action="/api/v1/auth/login" method="POST">
+                <div class="card-action red white-text">
+                    <h3>Login Form</h3>
+                </div>
+                <div class="card-content">
+                    <div class="form-field">
+                        <label for="email">Username</label>
+                        <i class="material-icons">person</i>
+                        <input type="text" name="email" id="email">
+                    </div>
+
+                    <div class="form-field">
+                        <label for="password">Password</label>
+                        <input type="text" name="password" id="password"/>
+                    </div>
+
+                    <div class="form-field">
+                        <label for="remember">Remember</label>
+                        <input type="checkbox" id="remember"/>
+
+                    </div>
+                    <div class="form-field">
+                        <button type="submit" form="loginForm" class="btn-large red">Login</button>
+                    </div><br>
+                </div>
+            </form>
+        </div>
+    </div>
 </div>
 </body>
 </html>
+
+
