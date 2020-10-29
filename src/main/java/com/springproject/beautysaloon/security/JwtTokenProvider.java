@@ -9,11 +9,14 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Component;
+import org.springframework.web.util.WebUtils;
 
 import javax.annotation.PostConstruct;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import java.util.Base64;
 import java.util.Date;
+import java.util.Objects;
 
 @Component
 public class JwtTokenProvider {
@@ -72,6 +75,10 @@ public class JwtTokenProvider {
     }
 
     public String resourceToken(HttpServletRequest request){
-        return request.getHeader(authorizationHeader);
+        Cookie cookie = WebUtils.getCookie(request, authorizationHeader);
+        if(cookie != null && cookie.getValue() != null){
+            return cookie.getValue();
+        }
+        return "null";
     }
 }

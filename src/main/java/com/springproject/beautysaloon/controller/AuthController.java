@@ -1,6 +1,5 @@
 package com.springproject.beautysaloon.controller;
 
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,8 +12,18 @@ public class AuthController {
         return "login";
     }
 
-    @GetMapping("/success")
-    public String getSuccessPage(){
-        return "success";
+    @GetMapping("/client-home")
+    public String getClientHomePage(){
+        return "client-home";
+    }
+
+    @GetMapping("/master-home")
+    public String getMasterHomePage(){
+        return "master-home";
+    }
+
+    @GetMapping("/admin-home")
+    public String getAdminHomePage(){
+        return "admin-home";
     }
 }
