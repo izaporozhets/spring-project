@@ -1,21 +1,30 @@
 package com.springproject.beautysaloon.model;
 
 import lombok.Data;
+import org.springframework.context.annotation.Bean;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Data
 @Entity
 @Table(name = "user")
 public class User {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private Long id;
 
     @Column(name ="rating")
     private int rating;
-    @Column(name ="speciality_id")
-    private int specialityId;
+
+    @ManyToMany
+    @JoinTable(name = "masters_specialities",
+            joinColumns = {@JoinColumn(name="master_id", referencedColumnName = "id")},
+            inverseJoinColumns = {@JoinColumn(name = "speciality_id", referencedColumnName = "id")}
+    )
+    private List<Speciality> specialityList;
 
     @Column(name ="visits")
     private int visits;
@@ -31,4 +40,11 @@ public class User {
     @Enumerated(value = EnumType.STRING)
     @Column(name ="status")
     private Status status;
+
+    @Override
+    public String toString(){
+        return getName();
+    }
+
+
 }

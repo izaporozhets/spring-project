@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="ISO-8859-1">
+    <title>Management System</title>
+
+    <link rel="stylesheet"
+          href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+          integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+          crossorigin="anonymous">
+
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+</head>
+<body>
+
+<nav>
+    <div class="nav-wrapper grey darken-4">
+        <a href="/admin-home" class="brand-logo center">Beauty Salon</a>
+        <ul id="nav-mobile" class="left hide-on-med-and-down">
+            <li><a href="#">Sass</a></li>
+            <li><a href="#">Components</a></li>
+            <li><a href="#">JavaScript</a></li>
+        </ul>
+    </div>
+</nav>
+
+<div class="container my-2">
+    <h1>Users</h1>
+
+    <table border="1" class = "table table-striped table-responsive-md">
+        <thead>
+        <tr>
+            <th>
+                <a th:href="@{'/admin-home/clients/page/' + ${currentPage} + '?sortField=name&sortDirection=' + ${reverseSortDirection}}">
+                    Name
+                </a>
+            </th>
+            <th>
+                <a th:href="@{'/admin-home/clients/page/' + ${currentPage} + '?sortField=visits&sortDirection=' + ${reverseSortDirection}}">
+                    Visits
+                </a>
+            </th>
+            <th>
+                <a th:href="@{'/admin-home/clients/page/' + ${currentPage} + '?sortField=email&sortDirection=' + ${reverseSortDirection}}">
+                    Email</a>
+            </th>
+            <th>
+                <a th:href="@{'/admin-home/clients/page/' + ${currentPage} + '?sortField=status&sortDirection=' + ${reverseSortDirection}}">
+                    Status
+                </a>
+            </th>
+
+            <th> Actions </th>
+            <th> Requests </th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="client : ${entityList}">
+            <td th:text="${client.name}"></td>
+            <td th:text="${client.visits}"></td>
+            <td th:text="${client.email}"></td>
+            <td th:text="${client.status}"></td>
+            <td> <a th:href="@{/showFormForUpdate/{id}(id=${client.id})}" class="btn btn-primary">Update</a>
+                <a th:href="@{/deleteEmployee/{id}(id=${client.id})}" class="btn btn-danger">Delete</a>
+            </td>
+            <td><a th:href="@{/admin-home/requests/client/{id}(id=${client.id})}" class="secondary-content"><i class="material-icons">dvr</i></a></td>
+        </tr>
+        </tbody>
+
+    </table>
+    <div th:if = "${totalPages > 1}">
+        <div class = "row col-sm-10">
+            <div class = "col-sm-2">
+                Total Rows: [[${totalItems}]]
+            </div>
+            <div class = "col-sm-1">
+					<span th:each="i: ${#numbers.sequence(1, totalPages)}">
+						<a th:if="${currentPage != i}" th:href="@{'/page/' + ${i}+ '?sortField=' + ${sortField} + '&sortDirection=' + ${sortDirection}}">[[${i}]]</a>
+						<span th:unless="${currentPage != i}">[[${i}]]</span>  &nbsp; &nbsp;
+					</span>
+            </div>
+            <div class = "col-sm-1">
+                <a th:if="${currentPage < totalPages}" th:href="@{'/page/' + ${currentPage + 1}+ '?sortField=' + ${sortField} + '&sortDirection=' + ${sortDirection}}">Next</a>
+                <span th:unless="${currentPage < totalPages}">Next</span>
+            </div>
+
+            <div class="col-sm-1">
+                <a th:if="${currentPage < totalPages}" th:href="@{'/page/' + ${totalPages}+ '?sortField=' + ${sortField} + '&sortDirection=' + ${sortDirection}}">Last</a>
+                <span th:unless="${currentPage < totalPages}">Last</span>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

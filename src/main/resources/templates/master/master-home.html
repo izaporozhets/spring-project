@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="https://code.highcharts.com/highcharts-3d.js"></script>
+    <script src="https://code.highcharts.com/modules/exporting.js"></script>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <link rel="stylesheet"
+          href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+
+    <!-- Optional theme -->
+    <link rel="stylesheet"
+          href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" />
+    <!-- Compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/js/materialize.min.js"></script>
+
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <script>
+        $(document).ready(function(){
+            $('select').formSelect();
+        });
+        
+        $(function (){
+            $('#date').on('change', function () {
+                var date = $(this).val();
+                if(date){
+                    window.location = "/master-home/" + date;
+                }
+            })
+        })
+    </script>
+</head>
+<body>
+
+    <nav>
+        <div class="nav-wrapper grey darken-4">
+            <a href="/" class="brand-logo center">Master page</a>
+            <ul id="nav-mobile" class="left hide-on-med-and-down"></ul>
+        </div>
+    </nav>
+
+    <h1><span th:text="${masterName}">*</span></h1>
+    <h4>Rating: <span th:text="${rating}">*</span></h4>
+    <h4>Requests: <span th:text="${requestListTotalSize}"></span>
+        <a><i class="material-icons">dvr</i></a>
+    </h4>
+    <h4>Clients : <span th:text="${clientSize}"></span></h4>
+    <h4>Feedbacks : <span th:text="${feedbackList}"></span>
+        <a><i class="material-icons">dvr</i></a>
+    </h4>
+    
+    <div class="input-field col s12">
+        <select onchange="this.form.submit()" id="date" th:field="*{date}">
+            <option value="Date"disabled selected>Date</option>
+            <tr th:each="day : ${workDayList}">
+                <option th:value="${day.day.toString()}" th:text="${day.day.toString().substring(0,10)}"></option>
+            </tr>
+        </select>
+        <label>Date</label>
+    </div>
+
+
+    <div id="container" style="height: 400px"></div>
+    <script th:inline="javascript">
+        Highcharts.chart('container', {
+            chart : {
+                type : 'pie',
+                options3d : {
+                    enabled : true,
+                    alpha : 50,
+                    beta : 0
+                }
+            },
+            title : {
+                text : 'Result Status'
+            },
+            tooltip : {
+                pointFormat : '{series.name}: <b>{point.percentage:.1f}%</b>'
+            },
+            plotOptions : {
+                pie : {
+                    allowPointSelect : true,
+                    cursor : 'pointer',
+                    depth : 35,
+                    dataLabels : {
+                        enabled : true,
+                        format : '{point.name}'
+                    }
+                }
+            },
+            series : [ {
+                type : 'pie',
+                name : 'Ratio',
+                data : [ [ 'Success', [[${pass}]] ], [ 'Failure', [[${fail}]] ]  ]
+            } ]
+        });
+    </script>
+
+    <table class="centered">
+        <thead>
+        <tr>
+            <th>Time</th>
+            <th>Procedure</th>
+            <th>Client</th>
+            <th>Done</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        <tr th:each="request : ${requestListByDate}">
+            <td th:text="${request.time}"></td>
+            <td th:text="${request.procedure}" ></td>
+            <td th:text="${request.client}"></td>
+            <td th:text="${request.done}"></td>
+        </tr>
+        </tbody>
+    </table>
+
+    <span th:text="${date.getFromTime()}"></span>
+    <span th:text="${date.getTillTime()}"></span>
+</body>
+</html>

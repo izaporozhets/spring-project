@@ -1,6 +1,13 @@
 
 <style>
     body{
+        background: url("../static/img/bg-img/17.jpg");
+        background-size: cover;
+        color: #0c0c0c;
+    }
+
+    .row .login {
+        background: #3c1116;
         background-size: cover;
     }
     .login{
@@ -9,29 +16,32 @@
     }
 
     .login .loginForm{
-        background: rgba(0, 0, 0, .6) url("./pages/background-loginpage.jpg");
+        background: rgba(243, 239, 239, 0.6);
     }
 
     .login label{
         font-size: 16px;
-        color: #ccc;
+        color: #000000;
     }
 
     .login input{
         font-size: 20px !important;
     }
 
-    .login button:hover{
-        padding: 0 40px;
+    .login button{
+        margin-left: 200px;
     }
-
+    .login button:hover{
+        -ms-transform: scale(1.045,1.045);
+        -o-transform: scale(1.045,1.045);
+        transform: scale(1.045,1.045);
+    }
 </style>
 
-<html lang="en">
+<html lang="en" >
 <head>
     <meta charset="utf-8">
     <title>Login Customer</title>
-
 
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <!--Import materialize.css-->
@@ -47,26 +57,29 @@
         <div class="card">
 
             <form class="loginForm" id="loginForm" action="/api/v1/auth/login" method="POST">
-                <div class="card-action red white-text">
-                    <h3>Login Form</h3>
+                <div class="card-action grey darken-3 white-text">
+                    <h3>Sign in</h3>
                 </div>
                 <div class="card-content">
                     <div class="form-field">
+                        <i class="material-icons">email</i>
                         <label for="email">Username</label>
-                        <i class="material-icons">person</i>
                         <input type="text" name="email" id="email">
-                    </div>
+                    </div><br>
 
                     <div class="form-field">
+                        <i class="material-icons">security</i>
                         <label for="password">Password</label>
                         <input type="text" name="password" id="password"/>
-                    </div>
+                    </div><br>
 
                     <div class="form-field">
-                        <label for="remember">Remember</label>
-                        <input type="checkbox" id="remember"/>
+                        <label>
+                            <input type="checkbox" />
+                            <span>Remember me</span>
+                        </label>
+                    </div><br>
 
-                    </div>
                     <div class="form-field">
                         <button type="submit" form="loginForm" class="btn-large red">Login</button>
                     </div><br>

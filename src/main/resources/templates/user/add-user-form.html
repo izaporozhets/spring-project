@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Management System</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+
+    <!-- Compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/js/materialize.min.js"></script>
+
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+
+    <script>
+        $(document).ready(function(){
+            $('select').formSelect();
+        });
+    </script>
+    <nav>
+        <div class="nav-wrapper grey darken-4">
+            <a href="/admin-home" class="brand-logo center">Beauty Salon</a>
+            <ul id="nav-mobile" class="left hide-on-med-and-down">
+                <li><a href="#">Sass</a></li>
+                <li><a href="#">Components</a></li>
+                <li><a href="#">JavaScript</a></li>
+            </ul>
+        </div>
+    </nav>
+</head>
+<body>
+<div class="row" style="width: 600px">
+    <form th:action="@{/save-master}"  th:object="${master}" method="post">
+        <div style="margin-left:  42%"><i class="large material-icons">contacts</i></div>
+
+        <input class="hide" id="role" type="text" th:field="*{role}" th:value="*{role}"/>
+        <input class="hide" id="speciality" type="text" th:field="*{status}" th:value="*{status}"/>
+
+        <div class="row">
+            <div class="input-field col s12">
+                <input id="name" type="text" class="validate" th:field="*{name}"/>
+                <label for="name">Name</label>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="input-field col s12">
+                <input id="rating" type="number" class="validate" th:field="*{rating}"/>
+                <label for="rating">Rating</label>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="input-field col s12">
+                <input id="email" type="email" class="validate" th:field="*{email}"/>
+                <label for="email">Email</label>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="input-field col s12">
+                <input id="password" type="password" class="validate" th:field="*{password}"/>
+                <label for="password">Password</label>
+            </div>
+        </div>
+
+        <div class="input-field col s12">
+            <select multiple th:field="*{specialityList}">
+                <option value=""disabled selected>Speciality</option>
+                <tr th:each="speciality : ${specialityList}">
+                    <option th:value="${speciality.id}" th:text="${speciality}"></option>
+                </tr>
+            </select>
+            <label>Speciality</label>
+        </div>
+
+        <button class="waves-effect red accent-2 btn-large" style="margin-left: 38%" type="submit" name="action">Submit
+            <i class="material-icons right">send</i>
+        </button>
+    </form>
+</div>
+</body>
+</html>
