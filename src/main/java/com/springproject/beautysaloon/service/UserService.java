@@ -14,6 +14,7 @@ public interface UserService {
     List<User> findAllMastersByProcedureName(String name);
     Optional<User> findById(Long id);
     List<User> findAllByDate(Date date);
+    Optional<User> findByEmail(String email);
     List<User> findAllClients();
     Optional<User> findByUsername(String username);
     Integer getMasterRatingById(Long id);

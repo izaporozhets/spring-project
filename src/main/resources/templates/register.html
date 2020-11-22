@@ -38,7 +38,7 @@
     }
 </style>
 
-<html lang="en" >
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="utf-8">
     <title>Login Customer</title>
@@ -56,27 +56,39 @@
     <div class="col s12 14 offset-14">
         <div class="card">
 
-            <form class="loginForm" id="loginForm" action="/api/v1/auth/login" method="POST">
+            <form class="loginForm" id="loginForm" th:object="${clientDto}" action="/api/v1/auth/register" method="POST">
                 <div class="card-action grey darken-3 white-text">
                     <h3>Sign up</h3>
                 </div>
+
+                <input class="hide" id="role" type="text" th:field="*{role}" th:value="*{role}"/>
+                <input class="hide" id="speciality" type="text" th:field="*{status}" th:value="*{status}"/>
+
                 <div class="card-content">
+
+                    <div class="form-field">
+                        <i class="material-icons">assignment_ind</i>
+                        <label for="email">Name</label>
+                        <input type="text" name="name" id="name" th:field="*{name}">
+                    </div><br>
+
+
                     <div class="form-field">
                         <i class="material-icons">email</i>
-                        <label for="email">Username</label>
-                        <input type="text" name="email" id="email">
+                        <label for="email">Email</label>
+                        <input type="text" name="email" id="email" th:field="*{email}">
                     </div><br>
 
                     <div class="form-field">
                         <i class="material-icons">security</i>
                         <label for="password">Password</label>
-                        <input type="text" name="password" id="password"/>
+                        <input type="text" name="password" id="password"  th:field="*{password}"/>
                     </div><br>
 
                     <div class="form-field">
                         <i class="material-icons">security</i>
                         <label for="password">Repeat password</label>
-                        <input type="text" name="password"/>
+                        <input type="text" name="repeat_password" th:field="*{confirmPassword}"/>
                     </div><br>
 
                     <div class="form-field">

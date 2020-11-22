@@ -1,6 +1,7 @@
 package com.springproject.beautysaloon.controller;
 
 import com.springproject.beautysaloon.dto.AdminUserDto;
+import com.springproject.beautysaloon.dto.ClientDto;
 import com.springproject.beautysaloon.dto.MasterDto;
 import com.springproject.beautysaloon.dto.RequestDto;
 import com.springproject.beautysaloon.model.*;
@@ -61,7 +62,12 @@ public class MainController {
     }
 
     @GetMapping("register")
-    public String getRegisterForm(){
+    public String getRegisterForm(Model model) {
+        ClientDto clientDto = new ClientDto();
+        clientDto.setVisits(0);
+        clientDto.setRole(Role.CLIENT);
+        clientDto.setStatus(Status.ACTIVE);
+        model.addAttribute("clientDto", clientDto);
         return "register";
     }
 
