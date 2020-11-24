@@ -12,7 +12,9 @@ import com.springproject.beautysaloon.service.RequestService;
 import com.springproject.beautysaloon.service.UserService;
 import org.springframework.data.domain.Page;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -26,7 +28,6 @@ import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 @Controller
-@RequestMapping
 public class MainController {
 
     private final SpecialityRepository specialityRepository;
@@ -51,6 +52,7 @@ public class MainController {
         this.passwordEncoder = passwordEncoder;
     }
 
+
     @GetMapping("/auth/login")
     public String getLoginPage(){
         return "login";
@@ -59,6 +61,32 @@ public class MainController {
     @GetMapping("/team")
     public String getTeam(){
         return "team";
+    }
+
+
+    @GetMapping("/home")
+    @PreAuthorize(value = "hasAnyAuthority('developers:read', 'client:read', 'master:read')")
+    public String getUserHomePage(){
+
+        Collection<GrantedAuthority> authorities = (Collection<GrantedAuthority>)
+                SecurityContextHolder.getContext().getAuthentication().getAuthorities();
+
+        if(authorities.size() == 0){
+            //exception
+        }
+
+        for(GrantedAuthority authority : authorities){
+            if (authority.getAuthority().contains("master")){
+                return "redirect:/master-home";
+            }
+            if(authority.getAuthority().contains("developers")){
+                return "redirect:/admin-home";
+            }
+            if(authority.getAuthority().contains("client")){
+                return "redirect:/client-home";
+            }
+        }
+        return "index";
     }
 
     @GetMapping("register")
@@ -78,10 +106,9 @@ public class MainController {
     }
 
     @GetMapping("/master-home")
-    @PreAuthorize(value = "hasAnyAuthority('master:read','developers:read')")
+    @PreAuthorize(value = "hasAnyAuthority('master:read')")
     public String getMasterHomePage(Model model){
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-
         return getMasterHomePageDate(model, formatter.format(new Date()));
     }
 
@@ -102,7 +129,12 @@ public class MainController {
             List<WorkDay> workDayList = workDayRepository.findAllByMasterId(masterId);
 
             WorkDay selectedWorkDay = workDayRepository.findWorkDayByDayAndMasterId(java.sql.Date.valueOf(date.substring(0,10)), masterId);
-            Collections.swap(workDayList, 0, workDayList.indexOf(selectedWorkDay));
+            if(selectedWorkDay == null){
+                selectedWorkDay = workDayRepository.findAllByMasterId(masterId).get(0);
+            }
+            if(selectedWorkDay != null){
+                Collections.swap(workDayList, 0, workDayList.indexOf(selectedWorkDay));
+            }
 
             List<User> userList = requestRepository.findAllClientsByMasterId(masterId);
 

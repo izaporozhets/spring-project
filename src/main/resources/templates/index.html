@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+                xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 <head>
     <meta charset="UTF-8">
@@ -36,9 +37,11 @@
         <img src="https://x-lines.ru/letters/i/cyrillicfancy/1588/000000/60/0/efjfeenpew.png">
     </div>
     <div class="container text-center" style="margin-top: 280px">
-        <a title="Log in" class="text-center h-75" href="/auth/login" style="text-decoration: none">Log in</a>
-        <a title="Registration" class="text-center h-75" href="/register" style="text-decoration: none">Registration</a>
+        <a sec:authorize="isAnonymous()" title="Log in" class="text-center h-75" href="/auth/login" style="text-decoration: none">Log in</a>
+        <a sec:authorize="isAuthenticated()" title="Log in" class="text-center h-75" th:href="@{/logout}" style="text-decoration: none">Logout</a>
+        <a sec:authorize="isAnonymous()" title="Registration" class="text-center h-75" href="/register" style="text-decoration: none">Registration</a>
         <a title="Our team" class="text-center h-75" href="/team" style="text-decoration: none">Our team</a>
+        <a sec:authorize="isAuthenticated()" title="My account" class="text-center h-75" href="/home" style="text-decoration: none">My account</a>
     </div>
 </header>
 

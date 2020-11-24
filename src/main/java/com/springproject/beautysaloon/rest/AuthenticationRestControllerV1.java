@@ -52,7 +52,7 @@ public class AuthenticationRestControllerV1 {
                 response.sendRedirect("/admin-home");
             }
             if(user.getRole().equals(Role.CLIENT)){
-                response.sendRedirect("/client-home");
+                response.sendRedirect("/");
             }
             if (user.getRole().equals(Role.MASTER)) {
                 response.sendRedirect("/master-home");
