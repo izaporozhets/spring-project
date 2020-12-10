@@ -3,6 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+
+
+
     <script src="https://code.highcharts.com/highcharts.js"></script>
     <script src="https://code.highcharts.com/highcharts-3d.js"></script>
     <script src="https://code.highcharts.com/modules/exporting.js"></script>
@@ -10,30 +13,47 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-    <link rel="stylesheet"
-          href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
 
-    <!-- Optional theme -->
-    <link rel="stylesheet"
-          href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" />
-    <!-- Compiled and minified JavaScript -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/js/materialize.min.js"></script>
 
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
     <script>
+
         $(document).ready(function(){
-            $('select').formSelect();
+            $('.datepicker').datepicker({
+                format: 'yyyy-mm-dd',
+                defaultDate: $("#date").val(),
+                autoClose: true,
+                disableDayFn:function (date){
+                    var days = null;
+                    $(document).ready(function (){
+                        days = $("#daysAttribute");
+                        console.log(days.val())
+                    });
+                    if(days != null){
+                        console.log(date.toDateString())
+                        return !days.val().includes(date.toDateString());
+                    }
+                }
+            });
         });
-        
+
         $(function (){
-            $('#date').on('change', function () {
-                var date = $(this).val();
-                if(date){
-                    window.location = "/master-home/" + date;
+
+            $('#schedule').on('click', function (){
+                document.getElementById('date').click();
+            })
+
+            $('#date').on('change', function (date){
+                var day = $(this).val();
+                console.log(day);
+                if(day){
+                    window.location = "/master-home/"+day;
                 }
             })
         })
+
     </script>
 </head>
 <body>
@@ -45,26 +65,28 @@
         </div>
     </nav>
 
-    <h1><span th:text="${masterName}">*</span></h1>
-    <h4>Rating: <span th:text="${rating}">*</span></h4>
-    <h4>Requests: <span th:text="${requestListTotalSize}"></span>
-        <a><i class="material-icons">dvr</i></a>
-    </h4>
-    <h4>Clients : <span th:text="${clientSize}"></span></h4>
-    <h4>Feedbacks : <span th:text="${feedbackList}"></span>
-        <a><i class="material-icons">dvr</i></a>
-    </h4>
-    
-    <div class="input-field col s12">
-        <select onchange="this.form.submit()" id="date" th:field="*{date}">
-            <option value="Date"disabled selected>Date</option>
-            <tr th:each="day : ${workDayList}">
-                <option th:value="${day.day.toString()}" th:text="${day.day.toString().substring(0,10)}"></option>
-            </tr>
-        </select>
-        <label>Date</label>
+    <div class="col s2 center">
+        <h6 th:text="${date.getDay().toString().substring(0, 10)}"></h6>
+        <button onclick="document.getElementById('date').click()" style="border: none; background: none; padding: 0;">
+            <i class="medium material-icons light-blue-text">schedule</i>
+        </button>
+        <input hidden="hidden" th:value="${date.getDay().toString().substring(0, 10)}" name="date" id="date" type="text" class="datepicker">
     </div>
 
+
+    <div class="row" style="display: inline-block">
+        <h4 style="display: inline-block; margin-left: 90px">Name: <span th:text="${masterName}">*</span></h4>
+        <h4 style="display: inline-block; margin-left: 90px">Rating: <span th:text="${rating}">*</span></h4>
+        <h4 style="display: inline-block; margin-left: 90px">Requests: <span th:text="${requestListTotalSize}"></span>
+            <a><i class="material-icons">dvr</i></a>
+        </h4>
+        <h4 style="display: inline-block; margin-left: 90px">Clients : <span th:text="${clientSize}"></span></h4>
+        <h4 style="display: inline-block; margin-left: 90px">Feedbacks : <span th:text="${feedbackList}"></span>
+            <a><i class="material-icons">dvr</i></a>
+        </h4>
+    </div>
+
+    <input class="hide" id="daysAttribute" th:value="${workDayList}"/>
 
     <div id="container" style="height: 400px"></div>
     <script th:inline="javascript">
@@ -117,7 +139,10 @@
             <td th:text="${request.time}"></td>
             <td th:text="${request.procedure}" ></td>
             <td th:text="${request.client}"></td>
-            <td th:text="${request.done}"></td>
+            <div th:switch="${request.done}">
+                <td th:case="true"><img src="/static/img/core-img/done.png"></td>
+                <td th:case="false"><img src="/static/img/core-img/notdone.png"></td>
+            </div>
         </tr>
         </tbody>
     </table>

@@ -1,7 +1,6 @@
 package com.springproject.beautysaloon.model;
 
 import lombok.Data;
-import org.springframework.context.annotation.Bean;
 
 import javax.persistence.*;
 import java.util.List;
@@ -28,6 +27,7 @@ public class User {
 
     @Column(name ="visits")
     private int visits;
+
     @Column(name ="email")
     private String email;
     @Column(name ="full_name")

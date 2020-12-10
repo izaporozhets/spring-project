@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+                xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="description" content="">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Title -->
+    <title>Akame - Hair Salon HTML Template</title>
+
+    <!-- Favicon -->
+    <link rel="icon" href="./img/core-img/favicon.ico">
+
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="/static/style.css">
+
+</head>
+
+<body>
+<!-- Preloader -->
+<div id="preloader">
+    <div class="loader"></div>
+</div>
+<!-- /Preloader -->
+
+<!-- Header Area Start -->
+<header>
+    <div class="overlay"></div>
+    <video playsinline="playsinline" autoplay="autoplay" muted="muted" loop="loop">
+        <source src="/static/video/header_video.mp4" type="video/mp4">
+    </video>
+    <div style="width: 100%; margin-top: 100px" class="container text-center">
+        <a href="/">
+            <img src="https://x-lines.ru/letters/i/cyrillicfancy/1588/000000/60/0/efjfeenpew.png">
+        </a>
+    </div>
+    <div class="mt-xl-5 container text-center">
+        <a sec:authorize="isAnonymous()" title="Log in" href="/auth/login" style="text-decoration: none">Log in</a>
+        <a sec:authorize="isAuthenticated()" title="Log in" class="text-center h-75" href="/logout" style="text-decoration: none">Logout</a>
+        <a sec:authorize="isAnonymous()" title="Registration" class="text-center h-75" href="/auth/register" style="text-decoration: none">Registration</a>
+        <a title="Our team" class="text-center h-75" href="/team" style="text-decoration: none">Our team</a>
+        <a sec:authorize="isAuthenticated()" title="My account" class="text-center h-75" href="/home" style="text-decoration: none">My account</a>
+    </div>
+</header>
+<!-- Header Area End -->
+
+<!-- Breadcrumb Area Start -->
+<section class="breadcrumb-area section-padding-80">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="breadcrumb-content">
+                    <h2>Our Services</h2>
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="/"><i class="icon_house_alt"></i> Home</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">Services</li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Breadcrumb Area End -->
+
+<!-- Service Area Start -->
+<section class="akame-service-area">
+
+    <!-- Single Service Item -->
+    <div class="single--service--item d-flex flex-wrap align-items-center">
+        <!-- Service Content -->
+        <div class="service-content">
+            <div class="service-text">
+                <h2>Hair Cuts &amp; Style</h2>
+                <p><span>Women's Haircut:</span> <span>$55+</span></p>
+                <p><span>Men's Haircut:</span> <span>$75+</span></p>
+                <p><span>Up Do Style:</span> <span>$35+</span></p>
+                <p><span>Half-up do style:</span> <span>$45+</span></p>
+            </div>
+        </div>
+        <!-- Service Thumbnail -->
+        <div class="service-thumbnail bg-img jarallax" style="background-image: url(static/img/bg-img/30.jpg);"></div>
+    </div>
+
+    <!-- Single Service Item -->
+    <div class="single--service--item odd-item d-flex flex-wrap align-items-center">
+        <!-- Service Thumbnail -->
+        <div class="service-thumbnail bg-img jarallax" style="background-image: url(static/img/bg-img/31.jpg);"></div>
+
+        <!-- Service Content -->
+        <div class="service-content">
+            <div class="service-text">
+                <h2>Hair dyed</h2>
+                <p><span>Dye L'Oréal:</span> <span>$55+</span></p>
+                <p><span>Dye Davines:</span> <span>$75+</span></p>
+                <p><span>Dye GolDWell:</span> <span>$35+</span></p>
+                <p><span>Dye Oriental:</span> <span>$45+</span></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Single Service Item -->
+    <div class="single--service--item d-flex flex-wrap align-items-center">
+        <!-- Service Content -->
+        <div class="service-content">
+            <div class="service-text">
+                <h2>Hair Care</h2>
+                <p><span>Shampoo &amp; Blow Dry:</span> <span>$55+</span></p>
+                <p><span>Personalized Color:</span> <span>$75+</span></p>
+                <p><span>Formal Styling:</span> <span>$35+</span></p>
+                <p><span>Bridal &amp; Wedding:</span> <span>$45+</span></p>
+            </div>
+        </div>
+        <!-- Service Thumbnail -->
+        <div class="service-thumbnail bg-img jarallax" style="background-image: url(static/img/bg-img/32.jpg);"></div>
+    </div>
+
+</section>
+<!-- Service Area End -->
+
+<!-- Footer Area Start -->
+<footer class="footer-area section-padding-80-0">
+    <div class="container">
+        <div class="row justify-content-between">
+
+            <!-- Single Footer Widget -->
+            <div class="col-12 col-sm-6 col-md-4">
+                <div class="single-footer-widget mb-80">
+                    <!-- Footer Logo -->
+                    <a href="#" class="footer-logo"><img src="/static/img/core-img/logo.png" alt=""></a>
+
+                    <p class="mb-30">We would love to serve you and let you enjoy your culinary experience. Excepteur sint occaecat cupidatat non proident.</p>
+
+                    <!-- Copywrite Text -->
+                    <div class="copywrite-text">
+                        <p> <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                            Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | <a class="hide" href="https://colorlib.com" target="_blank">Colorlib</a>
+                            <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --></p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Single Footer Widget -->
+            <div class="col-12 col-sm-6 col-md-4 col-xl-3">
+                <div class="single-footer-widget mb-80">
+                    <!-- Widget Title -->
+                    <h4 class="widget-title">Opening times</h4>
+
+                    <!-- Open Times -->
+                    <div class="open-time">
+                        <p>Monday: Friday: 10.00 - 23.00</p>
+                        <p>Saturday: 10.00 - 19.00</p>
+                    </div>
+
+                    <!-- Social Info -->
+                    <div class="social-info">
+                        <a href="#" class="facebook"><i class="fa fa-facebook"></i></a>
+                        <a href="#" class="twitter"><i class="fa fa-twitter"></i></a>
+                        <a href="#" class="google-plus"><i class="fa fa-google-plus"></i></a>
+                        <a href="#" class="instagram"><i class="fa fa-instagram"></i></a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Single Footer Widget -->
+            <div class="col-12 col-md-4 col-xl-3">
+                <div class="single-footer-widget mb-80">
+
+                    <!-- Widget Title -->
+                    <h4 class="widget-title">Contact Us</h4>
+
+                    <!-- Contact Address -->
+                    <div class="contact-address">
+                        <p>Tel: (+12) 345 678 910</p>
+                        <p>E-mail: Hello.colorlib@gmail.com</p>
+                        <p>Address: Iris Watson, P.O. Box 283 8562 Fusce Rd, NY</p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</footer>
+<!-- Footer Area End -->
+
+<!-- All JS Files -->
+<!-- jQuery -->
+<script src="/static/js/jquery.min.js"></script>
+<!-- Popper -->
+<script src="/static/js/popper.min.js"></script>
+<!-- Bootstrap -->
+<script src="/static/js/bootstrap.min.js"></script>
+<!-- All Plugins -->
+<script src="/static/js/akame.bundle.js"></script>
+<!-- Active -->
+<script src="/static/js/default-assets/active.js"></script>
+
+</body>
+
+</html>

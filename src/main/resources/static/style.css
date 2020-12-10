@@ -42,7 +42,7 @@ Last Update: Jan 19, 2018
 @import url(css/owl.carousel.min.css);
 @import url(css/magnific-popup.css);
 @import url(css/font-awesome.min.css);
-@import url(css/style.css);
+@import url(static/style.css);
 /* :: 1.0 Reboot CSS */
 
 * {
@@ -1803,4 +1803,12 @@ a[title]:hover:before {transition: 0s ease opacity 0s, .2s ease height, .2s ease
 a[title]:hover:after {transition: 0s ease opacity .4s, .2s ease height .4s , .2s ease width .6s;}
 a[title]:hover {background: rgba(255,255,255,.2);}
 
+.banner{
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
 /*# sourceMappingURL=style.css.map */

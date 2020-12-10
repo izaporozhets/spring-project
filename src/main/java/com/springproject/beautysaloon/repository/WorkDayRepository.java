@@ -9,7 +9,7 @@ import java.sql.Time;
 import java.util.List;
 
 public interface WorkDayRepository extends JpaRepository<WorkDay, Long> {
-    @Query(value = "select workday from WorkDay workday where workday.masterId = ?1 and workday.day >= CURRENT_DATE ")
+    @Query(value = "select workday from WorkDay workday where workday.masterId = ?1")
     List<WorkDay> findAllByMasterId(Long id);
 
     @Query("select workday.fromTime from WorkDay workday where workday.masterId = ?1 and workday.day = ?2")

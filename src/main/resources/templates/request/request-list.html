@@ -13,7 +13,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-
 </head>
 <body>
 
@@ -36,7 +35,7 @@
         <thead>
         <tr>
             <th>
-                    Procedure
+                Procedure
             </th>
             <th>
                 <a th:href="@{'/admin-home/requests/page/' + ${currentPage} + '?sortField=date&sortDirection=' + ${reverseSortDirection}}">
@@ -45,7 +44,7 @@
             </th>
 
             <th>
-                Master
+                    Master
             </th>
 
             <th>
@@ -57,19 +56,29 @@
                 Done
             </th>
             <th>
-                Actions
+                Info
             </th>
         </tr>
         </thead>
         <tbody>
         <tr th:each="request : ${requestList}">
             <td th:text="${request.procedure}"></td>
-            <td th:text="${request.date}" ></td>
+            <td th:text="${request.date.toString().substring(0, 11) + request.time}" ></td>
             <td th:text="${request.procedure.getMaster()}"></td>
             <td th:text="${request.client}"></td>
-            <td th:text="${request.done}"></td>
-            <td> <a th:href="@{/showFormForUpdate/{id}(id=${request.id})}" class="btn btn-primary">Update</a>
-                <a th:href="@{/deleteEmployee/{id}(id=${request.id})}" class="btn btn-danger">Delete</a>
+            <td>
+                <div th:switch="${request.done}">
+                    <img th:case="true" src="/static/img/core-img/done.png">
+                    <img th:case="false" src="/static/img/core-img/notdone.png">
+                </div>
+            </td>
+
+            <td>
+
+                <a th:href="@{'/admin-home/request/info/' + ${request.id}}">
+                    <i class="material-icons light-blue-text">settings</i>
+                </a>
+
             </td>
         </tr>
         </tbody>

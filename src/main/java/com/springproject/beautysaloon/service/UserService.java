@@ -16,7 +16,6 @@ public interface UserService {
     List<User> findAllByDate(Date date);
     Optional<User> findByEmail(String email);
     List<User> findAllClients();
-    Optional<User> findByUsername(String username);
     Integer getMasterRatingById(Long id);
     void saveUser(User user);
     void deleteUser(Long id);

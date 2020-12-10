@@ -64,11 +64,6 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Optional<User> findByUsername(String username) {
-        return userRepository.findByEmail(username);
-    }
-
-    @Override
     public Integer getMasterRatingById(Long id) {
         return userRepository.findRatingByMasterId(id);
     }

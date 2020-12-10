@@ -55,7 +55,6 @@
             </th>
 
             <th> Actions </th>
-            <th> Requests </th>
         </tr>
         </thead>
         <tbody>
@@ -64,14 +63,46 @@
             <td th:text="${client.visits}"></td>
             <td th:text="${client.email}"></td>
             <td th:text="${client.status}"></td>
-            <td> <a th:href="@{/showFormForUpdate/{id}(id=${client.id})}" class="btn btn-primary">Update</a>
-                <a th:href="@{/deleteEmployee/{id}(id=${client.id})}" class="btn btn-danger">Delete</a>
+            <td>
+                <a th:href="@{/admin-home/clients/info/{id}(id=${client.id})}">
+                    <i class="material-icons">settings</i></a>
+                <a th:href="@{/admin-home/requests/client/{id}(id=${client.id})}">
+                    <i class="material-icons">dvr</i></a>
+                <button style="border: none; background: none; padding: 0;" th:id="'delete:' + ${client.id}">
+                    <i class="material-icons light-blue-text">delete</i>
+                </button>
             </td>
-            <td><a th:href="@{/admin-home/requests/client/{id}(id=${client.id})}" class="secondary-content"><i class="material-icons">dvr</i></a></td>
         </tr>
         </tbody>
-
     </table>
+
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script th:inline="javascript">
+        var clientList = /*[[${entityList}]]*/ 'default';
+        for(let step = 0; step< clientList.length; step++){
+            var button = document.getElementById("delete:" + clientList[step].id);
+            button.addEventListener('click', function (){
+                swal({
+                    title: "Are you sure?",
+                    text: "Once deleted, you will not be able to recover this client!",
+                    icon: "warning",
+                    buttons: true,
+                    dangerMode: true,
+                })
+                    .then((willDelete) => {
+                        if (willDelete) {
+                            swal("You have successfully deleted client!", {
+                                icon: "success",
+                            }).then((success) => {
+                                    window.location.replace("http://localhost:8080/admin-home/delete/clients/" + clientList[step].id);
+                            });
+                        }
+                    });
+            })
+        }
+    </script>
+
+
     <div th:if = "${totalPages > 1}">
         <div class = "row col-sm-10">
             <div class = "col-sm-2">
@@ -79,17 +110,17 @@
             </div>
             <div class = "col-sm-1">
 					<span th:each="i: ${#numbers.sequence(1, totalPages)}">
-						<a th:if="${currentPage != i}" th:href="@{'/page/' + ${i}+ '?sortField=' + ${sortField} + '&sortDirection=' + ${sortDirection}}">[[${i}]]</a>
+						<a th:if="${currentPage != i}" th:href="@{'admin-home/clients/page/' + ${i}+ '?sortField=' + ${sortField} + '&sortDirection=' + ${sortDirection}}">[[${i}]]</a>
 						<span th:unless="${currentPage != i}">[[${i}]]</span>  &nbsp; &nbsp;
 					</span>
             </div>
             <div class = "col-sm-1">
-                <a th:if="${currentPage < totalPages}" th:href="@{'/page/' + ${currentPage + 1}+ '?sortField=' + ${sortField} + '&sortDirection=' + ${sortDirection}}">Next</a>
+                <a th:if="${currentPage < totalPages}" th:href="@{'admin-home/clients/page/' + ${currentPage + 1}+ '?sortField=' + ${sortField} + '&sortDirection=' + ${sortDirection}}">Next</a>
                 <span th:unless="${currentPage < totalPages}">Next</span>
             </div>
 
             <div class="col-sm-1">
-                <a th:if="${currentPage < totalPages}" th:href="@{'/page/' + ${totalPages}+ '?sortField=' + ${sortField} + '&sortDirection=' + ${sortDirection}}">Last</a>
+                <a th:if="${currentPage < totalPages}" th:href="@{'admin-home/clients/page/' + ${totalPages}+ '?sortField=' + ${sortField} + '&sortDirection=' + ${sortDirection}}">Last</a>
                 <span th:unless="${currentPage < totalPages}">Last</span>
             </div>
         </div>

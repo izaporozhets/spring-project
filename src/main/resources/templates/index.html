@@ -33,15 +33,18 @@
     <video playsinline="playsinline" autoplay="autoplay" muted="muted" loop="loop">
         <source src="/static/video/header_video.mp4" type="video/mp4">
     </video>
-    <div style="position: absolute; margin-left: 43%; margin-top: 100px">
-        <img src="https://x-lines.ru/letters/i/cyrillicfancy/1588/000000/60/0/efjfeenpew.png">
+    <div style="width: 100%; margin-top: 100px" class="container text-center">
+        <a href="/">
+            <img src="https://x-lines.ru/letters/i/cyrillicfancy/1588/000000/60/0/efjfeenpew.png">
+        </a>
     </div>
-    <div class="container text-center" style="margin-top: 280px">
+    <div class="mt-xl-5 container text-center">
         <a sec:authorize="isAnonymous()" title="Log in" class="text-center h-75" href="/auth/login" style="text-decoration: none">Log in</a>
-        <a sec:authorize="isAuthenticated()" title="Log in" class="text-center h-75" th:href="@{/logout}" style="text-decoration: none">Logout</a>
-        <a sec:authorize="isAnonymous()" title="Registration" class="text-center h-75" href="/register" style="text-decoration: none">Registration</a>
+        <a sec:authorize="isAuthenticated()" title="Log in" class="text-center h-75" href="/logout" style="text-decoration: none">Logout</a>
+        <a sec:authorize="isAnonymous()" title="Registration" class="text-center h-75" href="/auth/register" style="text-decoration: none">Registration</a>
         <a title="Our team" class="text-center h-75" href="/team" style="text-decoration: none">Our team</a>
         <a sec:authorize="isAuthenticated()" title="My account" class="text-center h-75" href="/home" style="text-decoration: none">My account</a>
+        <a title="Price" class="text-center h-75" href="/service" style="text-decoration: none">Price</a>
     </div>
 </header>
 
@@ -501,7 +504,7 @@
                     <!-- Copywrite Text -->
                     <div class="copywrite-text">
                         <p><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-                            Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="fa fa-heart-o" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
+                            Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved
                             <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --></p>
                     </div>
                 </div>

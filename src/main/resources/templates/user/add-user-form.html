@@ -36,12 +36,13 @@
         <div style="margin-left:  42%"><i class="large material-icons">contacts</i></div>
 
         <input class="hide" id="role" type="text" th:field="*{role}" th:value="*{role}"/>
-        <input class="hide" id="speciality" type="text" th:field="*{status}" th:value="*{status}"/>
+        <input class="hide" id="status" type="text" th:field="*{status}" th:value="*{status}"/>
 
         <div class="row">
             <div class="input-field col s12">
                 <input id="name" type="text" class="validate" th:field="*{name}"/>
                 <label for="name">Name</label>
+                <p class="red-text" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></p>
             </div>
         </div>
 
@@ -49,6 +50,7 @@
             <div class="input-field col s12">
                 <input id="rating" type="number" class="validate" th:field="*{rating}"/>
                 <label for="rating">Rating</label>
+                <p class="red-text" th:if="${#fields.hasErrors('rating')}" th:errors="*{rating}"></p>
             </div>
         </div>
 
@@ -56,6 +58,7 @@
             <div class="input-field col s12">
                 <input id="email" type="email" class="validate" th:field="*{email}"/>
                 <label for="email">Email</label>
+                <p class="red-text" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></p>
             </div>
         </div>
 
@@ -63,17 +66,27 @@
             <div class="input-field col s12">
                 <input id="password" type="password" class="validate" th:field="*{password}"/>
                 <label for="password">Password</label>
+                <p class="red-text" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></p>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="input-field col s12">
+                <input id="confirmPassword" type="password" class="validate" th:field="*{confirmPassword}"/>
+                <label for="confirmPassword">Confirm password</label>
+                <p class="red-text" th:if="${#fields.hasErrors('confirmPassword')}" th:errors="*{confirmPassword}"></p>
             </div>
         </div>
 
         <div class="input-field col s12">
-            <select multiple th:field="*{specialityList}">
+            <select id="specialityList" name="specialityList" multiple th:field="*{specialityList}">
                 <option value=""disabled selected>Speciality</option>
                 <tr th:each="speciality : ${specialityList}">
                     <option th:value="${speciality.id}" th:text="${speciality}"></option>
                 </tr>
             </select>
             <label>Speciality</label>
+            <p class="red-text" th:if="${#fields.hasErrors('specialityList')}" th:errors="*{specialityList}"></p>
         </div>
 
         <button class="waves-effect red accent-2 btn-large" style="margin-left: 38%" type="submit" name="action">Submit

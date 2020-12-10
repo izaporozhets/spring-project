@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <!-- Compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/js/materialize.min.js"></script>
+
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+</head>
+<body>
+
+<nav>
+    <div class="nav-wrapper grey darken-4">
+        <a href="/" class="brand-logo center">Beauty Salon</a>
+        <ul id="nav-mobile" class="left hide-on-med-and-down">
+            <li><a href="/logout">Logout</a></li>
+            <li><a href="#">Components</a></li>
+            <li><a href="#">JojoScript</a></li>
+        </ul>
+    </div>
+</nav>
+
+<div class="row center">
+    <div class="col s4">
+        <h3>Client</h3>
+        <div class="row">
+            <br><br>
+            <h6 th:text="${client.name}">Name</h6>
+            <br><br>
+            <h6 th:text="${client.visits}">Visits</h6>
+            <br><br>
+            <h6 th:text="${client.email}">Email</h6>
+            <br><br>
+            <h6 th:text="${client.status}">Status</h6>
+        </div>
+    </div>
+    <div class="col s4">
+        <h3>Request</h3>
+        <form th:action="@{/change-time}" method="post" name="paymentForm">
+            <input hidden="hidden" type="text" th:value="${request.id}" th:name="'reqId'">
+            <br><br>
+            <h6 th:text="${request.procedure}">Name</h6>
+            <br><br>
+            <div th:switch="${request.done}">
+                <div th:case="false" style="width: 150px; margin-left: 36%">
+                    <input th:value="${day.substring(0,10)}" name="date" id="date" type="text" class="datepicker">
+                </div>
+                <h6 th:case="true" th:text="'Date : ' + ${request.date.toString().substring(0,10)}"></h6>
+            </div>
+            <br><br>
+            <div th:switch="${request.done}">
+                <div th:case="false" style="width: 150px; margin-left: 36%">
+                    <select id="timeslot" name="time">
+                        <option th:value="${request.time}" th:text="${request.time}"></option>
+                        <tr th:each="slot : ${timeslots}">
+                            <option th:value="${slot.toString()}" th:text="${slot.toString()}"></option>
+                        </tr>
+                    </select>
+                    <label for="timeslot">Time</label>
+                </div>
+                <h6 th:case="true" th:text="'Time: ' + ${request.time}"></h6>
+            </div>
+
+            <br><br>
+            <h6 th:text="${request.procedure.duration}">Duration</h6>
+            <br><br>
+            <h6>
+                <div th:switch="${request.done}">
+                    <img th:case="true" src="/static/img/core-img/done.png">
+                    <img th:case="false" src="/static/img/core-img/notdone.png">
+                </div>
+                <input class="hide" id="isdone" th:value="${request.done}">
+            </h6>
+            <button th:if="${request.done} == false" class="waves-effect red darken-4 btn-large" type="button" id="changeTime">Change time
+                <i class="material-icons right">update</i>
+            </button>
+            <br><br>
+        </form>
+        <form th:action="@{/delete-request}" method="post" name="cancelRequest">
+            <button th:if="${request.done} == false" class="waves-effect red darken-4 btn-large" type="button" id="cancelRequest">Cancel Request
+                <i class="material-icons right">delete_forever</i>
+            </button>
+            <input hidden="hidden" type="text" th:value="${request.id}" th:name="'reqId'">
+        </form>
+    </div>
+    <div class="col s4">
+        <h3>Master</h3>
+        <div>
+            <br><br>
+            <h6 th:text="${master.name}">Name</h6>
+            <br><br>
+            <h6 th:text="${master.rating}">Rating</h6>
+            <br><br>
+            <h6 th:text="${master.email}">Email</h6>
+            <br><br>
+            <tr th:each="speciality : ${master.getSpecialityList()}">
+                <td th:text="${speciality.name}"></td>
+                <br>
+            </tr>
+        </div>
+    </div>
+</div>
+
+<input class="hide" id="daysAttribute" th:value="${workDayList}"/>
+
+<div class="center">
+    <form action="/done-request" method="post" name="confirmFrom">
+        <input hidden="hidden" type="text" th:value="${request.id}" th:name="'reqId'">
+        <input hidden="hidden" type="text" th:value="${client.id}" th:name="'clientId'">
+
+            <button th:if="${request.done} == true" class="waves-effect teal darken-4 btn-large" type="button" id="revoke">Revoke payment
+                <i class="material-icons right">send</i>
+            </button>
+
+            <button th:if="${request.done} == false" class="waves-effect teal darken-4 btn-large" type="button" id="confirm">Confirm payment
+                <i class="material-icons right">send</i>
+            </button>
+        <br><br>
+    </form>
+</div>
+
+<script>
+
+    $('#date').on('change', function (){
+        var date = $(this).val();
+        if(date){
+
+        }
+    })
+
+    $(document).ready(function(){
+        var date = new Date(), y = date.getFullYear(), m = date.getMonth();
+        var lastDay = new Date(y, m + 1, 0);
+
+        $('select').formSelect();
+        $('.datepicker').datepicker({
+            format: 'yyyy-mm-dd',
+            defaultDate: $("#date").val(),
+            autoClose: true,
+            disableDayFn:function (date){
+                var days = null;
+                $(document).ready(function (){
+                    days = $("#daysAttribute");
+                });
+                if(days != null){
+                    return !days.val().includes(date.toDateString());
+                }
+            },
+            minDate: new Date(),
+            maxDate: lastDay
+        });
+
+    });
+
+
+    var confirm = document.getElementById("confirm");
+    if(confirm){
+        confirm.addEventListener('click', function (){
+            swal({
+                title: "Confirm payment",
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+            }).then((willDelete) => {
+                if(willDelete){
+                    swal("You have successfully confirmed payment!", {
+                        icon: "success",
+                    }).then((confirm) => {
+                        document.confirmFrom.submit();
+                    })
+                }
+            })
+        })
+    }
+    var revoke = document.getElementById("revoke");
+    if(revoke){
+        revoke.addEventListener('click', function () {
+            swal({
+                title: "Do you want to revoke payment?",
+                text: "This payment is already confirmed!",
+                buttons: true,
+                icon: "warning"
+            }).then((willDelete) =>{
+                if(willDelete){
+                    swal("You have successfully revoked payment!", {
+                        icon: "success",
+                    }).then((confirm) => {
+                        document.confirmFrom.submit();
+                    })
+                }
+            })
+
+        })
+    }
+
+    var changeTime = document.getElementById("changeTime");
+    if(changeTime){
+        changeTime.addEventListener('click', function (){
+            document.paymentForm.submit();
+        })
+    }
+
+    var cancelRequest = document.getElementById("cancelRequest");
+    if(cancelRequest){
+        cancelRequest.addEventListener('click', function () {
+            swal({
+                title:"Do you want to delete this request?",
+                buttons:true,
+                icon: "warning"
+            }).then((willDelete) =>{
+                if(willDelete){
+                    swal("You have successfully deleted this request!",{
+                        icon: "success"
+                    }).then((confirm) => {
+                        document.cancelRequest.submit();
+                    })
+                }
+            })
+        })
+    }
+</script>
+</body>
+</html>
