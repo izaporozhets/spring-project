@@ -17,16 +17,16 @@ public interface RequestRepository extends JpaRepository<Request, Long> {
 
     Page<Request> findAllByClient_Id(Pageable pageable, Long id);
 
-    @Query("select request from Request request where request.procedure.master.id = ?1")
+    @Query("select request from Request request where request.master.id = ?1")
     Page<Request> findAllByProcedureMaster(Pageable pageable, Long id);
 
-    @Query("select request from Request request where request.procedure.master.id = ?1 and request.date = ?2")
+    @Query("select request from Request request where request.master.id = ?1 and request.date = ?2")
     List<Request> findAllRequestsByMasterIdAndDate(Long id, Timestamp date);
 
-    @Query("select request from Request request where  request.procedure.master.id = ?1")
+    @Query("select request from Request request where  request.master.id = ?1")
     List<Request> findAllByMasterId(Long id);
 
-    @Query("select request.client from Request request where request.procedure.master.id = ?1 group by request.client.name")
+    @Query("select request.client from Request request where request.master.id = ?1 group by request.client.name")
     List<User> findAllClientsByMasterId(Long id);
 
     @Transactional

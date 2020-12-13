@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface FeedbackRepository extends JpaRepository<Feedback, Long> {
 
-    @Query("select feedback from Feedback feedback where feedback.request.procedure.master.id = ?1")
+    @Query("select feedback from Feedback feedback where feedback.request.master.id = ?1")
     List<Feedback> findAllByMasterId(Long id);
 
 }

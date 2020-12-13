@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface ProcedureRepository extends JpaRepository<Procedure, Long> {
 
-    @Query("select procedure from Procedure procedure where procedure.master.id = ?1")
+    @Query("select procedure from Procedure procedure, SpecialityMaster specMaster where procedure.speciality.id = specMaster.specialityId")
     List<Procedure> findAllByMasterId(Long masterId);
 
     @Query("select procedure from Procedure procedure group by procedure.name")

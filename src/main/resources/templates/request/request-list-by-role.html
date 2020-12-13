@@ -62,7 +62,7 @@
         <tr th:each="request : ${requestList}">
             <td th:text="${request.procedure}"></td>
             <td th:text="${request.date.toString().substring(0, 11) + request.time}"></td>
-            <td th:text="${request.procedure.getMaster()}"></td>
+            <td th:text="${request.getMaster()}"></td>
             <td th:text="${request.client}"></td>
             <td>
                 <div th:switch="${request.done}">

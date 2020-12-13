@@ -36,7 +36,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/","/team","/auth/register").permitAll()
                 .antMatchers("/static/**", "/service").permitAll()
                 .anyRequest().authenticated().and().apply(jwtConfigurer)
-                .and().formLogin().loginPage("/auth/login").and().logout()
+                .and().formLogin().failureForwardUrl("/auth/login").loginPage("/auth/login").and().logout()
                 .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
                 .logoutSuccessUrl("/").deleteCookies("Authorization");
     }

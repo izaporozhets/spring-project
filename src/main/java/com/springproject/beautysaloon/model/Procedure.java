@@ -25,9 +25,9 @@ public class Procedure {
     @Column(name = "`duration`")
     private Time duration;
 
-    @JoinColumn(name = "`master_id`")
+    @JoinColumn(name = "`speciality_id`")
     @ManyToOne(fetch = FetchType.LAZY)
-    private User master;
+    private Speciality speciality;
 
     @Override
     public String toString(){

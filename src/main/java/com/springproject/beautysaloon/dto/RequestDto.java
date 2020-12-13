@@ -39,6 +39,7 @@ public class RequestDto {
         }
         request.setTime(time);
         request.setClient(client);
+        request.setMaster(master);
         request.setDone(done);
         return request;
     }
@@ -47,7 +48,7 @@ public class RequestDto {
         RequestDto requestDto = new RequestDto();
         requestDto.setId(request.getId());
         requestDto.setProcedure(request.getProcedure());
-        requestDto.setMaster(request.getProcedure().getMaster());
+        requestDto.setMaster(request.getMaster());
         requestDto.setClient(request.getClient());
         requestDto.setDate(String.valueOf(request.getDate()));
         requestDto.setTime(request.getTime());

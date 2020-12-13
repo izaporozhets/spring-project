@@ -79,6 +79,6 @@ public class JwtTokenProvider {
         if(cookie != null && cookie.getValue() != null){
             return cookie.getValue();
         }
-        return "null";
+        return null;
     }
 }

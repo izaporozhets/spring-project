@@ -21,8 +21,8 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     Optional<User> findByEmail(String email);
 
-    @Query(value = "select user from User user, Procedure procedure where procedure.name = ?1 and procedure.master.id = user.id")
-    List<User> findAllMastersByProcedureName(String name);
+    @Query(value = "select user from User user, Speciality speciality, SpecialityMaster specMaster where speciality.id = ?1 and specMaster.specialityId = speciality.id and specMaster.masterId = user.id")
+    List<User> findAllMastersBySpecialityId(Long id);
 
     @Query(value = "select user from User user, WorkDay workday where workday.day = ?1 and user.id = workday.masterId")
     List<User> findAllByDate(Date date);

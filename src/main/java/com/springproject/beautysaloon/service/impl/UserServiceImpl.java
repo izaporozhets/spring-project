@@ -2,6 +2,7 @@ package com.springproject.beautysaloon.service.impl;
 
 import com.springproject.beautysaloon.model.Role;
 import com.springproject.beautysaloon.model.User;
+import com.springproject.beautysaloon.repository.MastersSpecialitiesRepository;
 import com.springproject.beautysaloon.repository.ProcedureRepository;
 import com.springproject.beautysaloon.repository.UserRepository;
 import com.springproject.beautysaloon.service.UserService;
@@ -18,10 +19,12 @@ import java.util.Optional;
 @Service
 public class UserServiceImpl implements UserService {
 
+    private final MastersSpecialitiesRepository mastersSpecialitiesRepository;
     private final UserRepository userRepository;
     private final ProcedureRepository procedureRepository;
 
-    public UserServiceImpl(UserRepository userRepository, ProcedureRepository procedureRepository) {
+    public UserServiceImpl(MastersSpecialitiesRepository mastersSpecialitiesRepository, UserRepository userRepository, ProcedureRepository procedureRepository) {
+        this.mastersSpecialitiesRepository = mastersSpecialitiesRepository;
         this.userRepository = userRepository;
         this.procedureRepository = procedureRepository;
     }
@@ -39,8 +42,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<User> findAllMastersByProcedureName(String name) {
-        return userRepository.findAllMastersByProcedureName(name);
+    public List<User> findAllMastersBySpecialityId(Long id) {
+        return userRepository.findAllMastersBySpecialityId(id);
     }
 
     @Override
@@ -76,5 +79,10 @@ public class UserServiceImpl implements UserService {
     @Override
     public void deleteUser(Long id){
         userRepository.deleteById(id);
+    }
+
+    @Override
+    public Long getSpecialityIdByMasterId(Long id) {
+        return mastersSpecialitiesRepository.getSpecialityIdByMasterId(id);
     }
 }

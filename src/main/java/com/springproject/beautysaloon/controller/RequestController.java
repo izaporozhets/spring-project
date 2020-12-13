@@ -42,7 +42,7 @@ public class RequestController {
     public String getRequestInfo(Model model, @PathVariable(name = "id") Long id) {
         Optional<Request> request = requestService.findById(id);
         Optional<User> client = userService.findById(request.get().getClient().getId());
-        Optional<User> master = userService.findById(request.get().getProcedure().getMaster().getId());
+        Optional<User> master = userService.findById(request.get().getMaster().getId());
         UserDto userDto = UserDto.fromUser(client.get());
         MasterDto masterDto = MasterDto.fromUser(master.get());
         List<Time> slots = requestService.getTimeSlots(masterDto.getId(), request.get().getDate().toString().substring(0,10), request.get().getProcedure().getDuration());
@@ -71,7 +71,9 @@ public class RequestController {
         if (selectedProcedure.isPresent() && !procedureList.get(0).getId().equals(procedureId)) {
             selectedProcedure.ifPresent(procedure -> Collections.swap(procedureList, 0, procedureList.indexOf(procedure)));
         }
-        List<User> masterList = userRepository.findAllMastersByProcedureName(selectedProcedure.get().getName());
+
+
+        List<User> masterList = userRepository.findAllMastersBySpecialityId(selectedProcedure.get().getSpeciality().getId());
         Optional<User> selectedMaster = userRepository.findById(masterId);
 
         if (selectedMaster.isPresent()) {

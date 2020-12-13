@@ -30,6 +30,10 @@ public class Request {
     @ManyToOne(fetch = FetchType.LAZY)
     private User client;
 
+    @JoinColumn(name = "master_id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    private User master;
+
     @Column(name = "done")
     private boolean done;
 

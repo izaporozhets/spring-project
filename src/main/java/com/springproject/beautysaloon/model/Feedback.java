@@ -26,7 +26,7 @@ public class Feedback {
 
     @Override
     public String toString(){
-        return "Procedure : " + request.getProcedure().getName() + " | Master : " + request.getProcedure().getMaster().getName();
+        return "Procedure : " + request.getProcedure().getName() + " | Master : " + request.getMaster().getName();
     }
 
 }

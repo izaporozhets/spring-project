@@ -46,6 +46,9 @@
         <a sec:authorize="isAuthenticated()" title="My account" class="text-center h-75" href="/home" style="text-decoration: none">My account</a>
         <a title="Price" class="text-center h-75" href="/service" style="text-decoration: none">Price</a>
     </div>
+    <div class="mt-lg-2 container text-center">
+        <a sec:authorize="isAuthenticated()" title="Book an appointment" class="text-center h-75" href="/book" style="text-decoration: none">Book an appointment</a>
+    </div>
 </header>
 
 <!-- Our Service Area Start -->
@@ -112,7 +115,7 @@
                     <h2>Make Stilo Your <br>Number One Choice</h2>
                     <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut la.</p>
                     <div class="akame-btn-group mt-30">
-                        <a href="#" class="btn akame-btn active mr-3 mb-3 mb-sm-0">Book An Appointment</a>
+                        <a sec:authorize="isAuthenticated()" href="" class="btn akame-btn active mr-3 mb-3 mb-sm-0">Book An Appointment</a>
                         <a href="#" class="btn akame-btn">Contact Us</a>
                     </div>
                 </div>
