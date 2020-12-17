@@ -7,7 +7,13 @@ import java.util.Optional;
 
 public interface ProcedureService {
     List<Procedure> findAll();
+
     List<Procedure> findAllByMasterId(Long masterId);
+
     Optional<Procedure> findById(Long id);
+
     List<Procedure> findAllWithIdentityName();
+
+    Procedure findFirstByCost();
+
 }

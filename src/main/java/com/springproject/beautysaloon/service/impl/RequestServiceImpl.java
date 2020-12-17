@@ -68,6 +68,13 @@ public class RequestServiceImpl implements RequestService {
     }
 
     @Override
+    public Page<Request> findAllByClientId(int pageNo, int pageSize, String sortField, String sortDirection, Long id) {
+        Sort sort = sortDirection.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortField).ascending() : Sort.by(sortField).descending();
+        Pageable pageable = PageRequest.of(pageNo - 1, pageSize, sort);
+        return requestRepository.findAllByClient_Id(pageable, id);
+    }
+
+    @Override
     public void saveRequest(Request request) {
         requestRepository.save(request);
     }

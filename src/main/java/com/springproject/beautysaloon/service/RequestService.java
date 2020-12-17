@@ -20,6 +20,8 @@ public interface RequestService {
 
     List<Request> findAllByMasterId(Long id);
 
+    Page<Request> findAllByClientId(int pageNo, int pageSize, String sortField, String sortDirection, Long id);
+
     void saveRequest(Request request);
 
     Optional<Request> findById(Long id);

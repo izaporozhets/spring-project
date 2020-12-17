@@ -21,12 +21,10 @@ public class UserServiceImpl implements UserService {
 
     private final MastersSpecialitiesRepository mastersSpecialitiesRepository;
     private final UserRepository userRepository;
-    private final ProcedureRepository procedureRepository;
 
-    public UserServiceImpl(MastersSpecialitiesRepository mastersSpecialitiesRepository, UserRepository userRepository, ProcedureRepository procedureRepository) {
+    public UserServiceImpl(MastersSpecialitiesRepository mastersSpecialitiesRepository, UserRepository userRepository) {
         this.mastersSpecialitiesRepository = mastersSpecialitiesRepository;
         this.userRepository = userRepository;
-        this.procedureRepository = procedureRepository;
     }
 
     @Override
@@ -84,5 +82,10 @@ public class UserServiceImpl implements UserService {
     @Override
     public Long getSpecialityIdByMasterId(Long id) {
         return mastersSpecialitiesRepository.getSpecialityIdByMasterId(id);
+    }
+
+    @Override
+    public User getFirstMaster(Role role) {
+        return userRepository.findFirstByRole(role);
     }
 }

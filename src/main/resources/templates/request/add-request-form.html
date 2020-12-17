@@ -7,7 +7,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
     <!-- Compiled and minified JavaScript -->
@@ -27,10 +26,8 @@
                 defaultDate: $("#date").val(),
                 autoClose: true,
                 disableDayFn:function (date){
-                    var days = null;
-                    $(document).ready(function (){
-                        days = $("#daysAttribute");
-                    });
+                    var days = $("#daysAttribute");
+
                     if(days != null){
                         return !days.val().includes(date.toDateString());
                     }

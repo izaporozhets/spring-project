@@ -36,4 +36,9 @@ public class ProcedureServiceImpl implements ProcedureService {
     public List<Procedure> findAllWithIdentityName() {
         return procedureRepository.findAllWithIdentityName();
     }
+
+    @Override
+    public Procedure findFirstByCost() {
+        return procedureRepository.findTopByOrderBySpeciality();
+    }
 }

@@ -85,7 +85,7 @@
             <br><br>
         </form>
         <form th:action="@{/delete-request}" method="post" name="cancelRequest">
-            <button th:if="${request.done} == false" class="waves-effect red darken-4 btn-large" type="button" id="cancelRequest">Cancel Request
+            <button th:if="${request.done} == false" class="waves-effect red darken-4 btn-large" type="button" id="cancelRequest">Delete Request
                 <i class="material-icons right">delete_forever</i>
             </button>
             <input hidden="hidden" type="text" th:value="${request.id}" th:name="'reqId'">
@@ -167,7 +167,7 @@
             swal({
                 title: "Confirm payment",
                 icon: "warning",
-                buttons: true,
+                buttons: ["Cancel", "Confirm"],
                 dangerMode: true,
             }).then((willDelete) => {
                 if(willDelete){
@@ -186,7 +186,7 @@
             swal({
                 title: "Do you want to revoke payment?",
                 text: "This payment is already confirmed!",
-                buttons: true,
+                buttons: ["Cancel", "Revoke"],
                 icon: "warning"
             }).then((willDelete) =>{
                 if(willDelete){
@@ -213,7 +213,7 @@
         cancelRequest.addEventListener('click', function () {
             swal({
                 title:"Do you want to delete this request?",
-                buttons:true,
+                buttons: ["Cancel", "Delete"],
                 icon: "warning"
             }).then((willDelete) =>{
                 if(willDelete){

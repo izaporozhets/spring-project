@@ -35,27 +35,24 @@ public class MainController {
     private final RequestRepository requestRepository;
     private final RequestService requestService;
     private final FeedbackService feedbackService;
-    private final AuthenticationManager authenticationManager;
     private final UserService userService;
-    private final UserValidator userValidator;
-    private final JwtTokenProvider jwtTokenProvider;
-    private final LoginValidator loginValidator;
     private final PasswordEncoder passwordEncoder;
 
-    public MainController(SpecialityRepository specialityRepository, WorkDayRepository workDayRepository, RequestRepository requestRepository, RequestService requestService, FeedbackService feedbackService, AuthenticationManager authenticationManager, ProcedureService procedureService, JwtTokenProvider jwtTokenProvider, UserRepository userRepository, AuthenticationManager authenticationManager1, UserService userService, UserValidator userValidator, JwtTokenProvider jwtTokenProvider1, LoginValidator loginValidator, PasswordEncoder passwordEncoder) {
+    public MainController(SpecialityRepository specialityRepository, WorkDayRepository workDayRepository, RequestRepository requestRepository, RequestService requestService, FeedbackService feedbackService, UserService userService, PasswordEncoder passwordEncoder) {
         this.specialityRepository = specialityRepository;
         this.workDayRepository = workDayRepository;
         this.requestRepository = requestRepository;
         this.requestService = requestService;
         this.feedbackService = feedbackService;
-        this.authenticationManager = authenticationManager1;
         this.userService = userService;
-        this.userValidator = userValidator;
-        this.jwtTokenProvider = jwtTokenProvider1;
-        this.loginValidator = loginValidator;
         this.passwordEncoder = passwordEncoder;
     }
 
+    @GetMapping("")
+    public String getIndexPage(Model model) {
+        model.addAttribute("clientId", getAuthenticatedUserId());
+        return "index";
+    }
 
     @GetMapping("/team")
     public String getTeam() {
@@ -63,7 +60,8 @@ public class MainController {
     }
 
     @GetMapping("/service")
-    public String service() {
+    public String service(Model model) {
+        model.addAttribute("clientId", getAuthenticatedUserId());
         return "service";
     }
 
@@ -91,7 +89,10 @@ public class MainController {
 
     @GetMapping("/client-home")
     @PreAuthorize(value = "hasAuthority('client:read')")
-    public String getClientHomePage() {
+    public String getClientHomePage(Model model) {
+        org.springframework.security.core.userdetails.User clientDetails = (org.springframework.security.core.userdetails.User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Optional<User> client = userService.findByEmail(clientDetails.getUsername());
+        client.ifPresent(user -> model.addAttribute("client", user));
         return "client/client-home";
     }
 
@@ -124,7 +125,7 @@ public class MainController {
                 formattedList.add(formatter.format(calendar.getTime()));
             }
 
-            WorkDay selectedWorkDay = workDayRepository.findWorkDayByDayAndMasterId(java.sql.Date.valueOf(date.substring(0, 10)), masterId);
+            WorkDay selectedWorkDay = workDayRepository.findFirstByDayAndMasterId(java.sql.Date.valueOf(date.substring(0, 10)), masterId);
             if (selectedWorkDay == null) {
                 selectedWorkDay = workDayRepository.findAllByMasterId(masterId).get(0);
             }
@@ -255,6 +256,21 @@ public class MainController {
                              @PathVariable(value = "id") Long id) {
         userService.deleteUser(id);
         return "redirect:/admin-home/" + roleStr;
+    }
+
+    public Long getAuthenticatedUserId(){
+        org.springframework.security.core.userdetails.User masterDetails = null;
+        try {
+            masterDetails = (org.springframework.security.core.userdetails.User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        } catch (Exception ignored) { }
+
+        Optional<User> user;
+        if (masterDetails != null) {
+            user = userService.findByEmail(masterDetails.getUsername());
+            return user.get().getId();
+        } else {
+            return -1L;
+        }
     }
 
 }

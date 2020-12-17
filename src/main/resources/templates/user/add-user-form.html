@@ -48,7 +48,7 @@
 
         <div class="row">
             <div class="input-field col s12">
-                <input id="rating" type="number" class="validate" th:field="*{rating}"/>
+                <input id="rating" type="number" class="validate" min="0" th:field="*{rating}"/>
                 <label for="rating">Rating</label>
                 <p class="red-text" th:if="${#fields.hasErrors('rating')}" th:errors="*{rating}"></p>
             </div>

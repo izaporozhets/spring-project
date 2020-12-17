@@ -18,6 +18,7 @@ import java.text.SimpleDateFormat;
 public class RequestDto {
 
     private Long id;
+
     private Procedure procedure;
     private User master;
     private String date;

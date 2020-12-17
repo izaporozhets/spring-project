@@ -6,6 +6,7 @@ import com.springproject.beautysaloon.dto.RequestDto;
 import com.springproject.beautysaloon.dto.UserDto;
 import com.springproject.beautysaloon.model.Procedure;
 import com.springproject.beautysaloon.model.Request;
+import com.springproject.beautysaloon.model.Role;
 import com.springproject.beautysaloon.model.User;
 import com.springproject.beautysaloon.repository.*;
 import com.springproject.beautysaloon.service.ProcedureService;
@@ -13,12 +14,15 @@ import com.springproject.beautysaloon.service.RequestService;
 import com.springproject.beautysaloon.service.UserService;
 import org.springframework.data.domain.Page;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.Time;
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 
@@ -37,6 +41,7 @@ public class RequestController {
         this.userService = userService;
     }
 
+
     @GetMapping("/admin-home/request/info/{id}")
     @PreAuthorize("hasAnyAuthority('developers:read','developers:write')")
     public String getRequestInfo(Model model, @PathVariable(name = "id") Long id) {
@@ -49,7 +54,6 @@ public class RequestController {
         List<String> formattedList = requestService.getWorkingDays(masterDto.getId());
 
         request.ifPresent(value -> model.addAttribute("request", value));
-        System.out.println();
         model.addAttribute("workDayList",formattedList);
         model.addAttribute("day", request.get().getDate().toString());
         model.addAttribute("timeslots", slots);
@@ -135,11 +139,24 @@ public class RequestController {
     }
 
     @PostMapping("/save-request")
-    @PreAuthorize("hasAuthority('developers:write')")
+    @PreAuthorize("hasAnyAuthority('developers:write', 'client:write')")
     public String saveRequest(@ModelAttribute(value = "request") RequestDto requestDto){
+
+        Collection<GrantedAuthority> authorities = (Collection<GrantedAuthority>)
+                SecurityContextHolder.getContext().getAuthentication().getAuthorities();
+
         Request request = requestDto.toRequest();
         requestService.saveRequest(request);
-        return "redirect:/admin-home/requests";
+
+        for (GrantedAuthority authority : authorities) {
+            if (authority.getAuthority().contains("client")) {
+                return "redirect:/client-home/" + requestDto.getClient().getId() + "/requests";
+            }
+            if (authority.getAuthority().contains("developers")) {
+                return "redirect:/admin-home/requests";
+            }
+        }
+        return "error";
     }
 
     @RequestMapping("/done-request")
@@ -218,4 +235,103 @@ public class RequestController {
         return "redirect:/admin-home/requests";
     }
 
+    @GetMapping("/client-home/{id}/requests")
+    @PreAuthorize(value = "hasAuthority('client:read')")
+    public String getClientRequests(Model model, @PathVariable(name = "id")Long id){
+        return getClientRequestsPaginated(1,"date", "desc", id, model);
+    }
+
+    @GetMapping("/client-home/{id}/requests/page/{pageNo}")
+    @PreAuthorize(value = "hasAuthority('client:read')")
+    public String getClientRequestsPaginated(@PathVariable(value = "pageNo") int pageNo,
+                                             @RequestParam("sortField") String sortField,
+                                             @RequestParam("sortDirection") String sortDirection,
+                                             @PathVariable(value = "id") Long id, Model model){
+        int pageSize = 10;
+        Page<Request> page = requestService.findPaginatedByPersonId(pageNo, pageSize, sortField, sortDirection, id);
+        List<Request> requestList = page.getContent();
+
+        int requestRows = 1;
+        int reqListSize = requestList.size();
+        if(reqListSize % 4 != 0){
+            requestRows = requestRows / 4;
+            requestRows++;
+        }
+        else {
+            requestRows = reqListSize;
+        }
+        model.addAttribute("currentPage", pageNo);
+        model.addAttribute("totalPages", page.getTotalPages());
+        model.addAttribute("totalItems", page.getTotalElements());
+        model.addAttribute("sortField", sortField);
+        model.addAttribute("sortDirection", sortDirection);
+        model.addAttribute("reverseSortDirection", sortDirection.equals("asc") ? "desc" : "asc");
+        model.addAttribute("requestList",requestList);
+        model.addAttribute("clientId", id);
+        model.addAttribute("rows", requestRows);
+
+        return "client/client-request-list";
+    }
+
+    @GetMapping("/client-home/{id}/book")
+    @PreAuthorize(value = "hasAuthority('client:read')")
+    public String bookRequest(Model model, @PathVariable("id")Long clientId){
+        if(getAuthenticatedUserId().equals(clientId)){
+            Long masterId = userService.getFirstMaster(Role.MASTER).getId();
+            Long procedureId = procedureService.findFirstByCost().getId();
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
+            String date = formatter.format(new Date());
+            return bookRequestParams(model, clientId, procedureId, masterId, date);
+        }
+        return "error";
+    }
+
+    @GetMapping("/client-home/{id}/book/procedure/{procedureId}/master/{masterId}/date/{date}")
+    public String bookRequestParams(Model model, @PathVariable("id")Long id, @PathVariable("procedureId") Long procId,
+                              @PathVariable("masterId")Long masterId, @PathVariable("date")String date){
+        if(getAuthenticatedUserId().equals(id)){
+            Optional<User> client = userService.findById(id);
+
+            List<Procedure> procedureList = procedureService.findAllWithIdentityName();
+            Optional<Procedure> selectedProcedure = procedureService.findById(procId);
+
+            if (selectedProcedure.isPresent() && !procedureList.get(0).getId().equals(procId)) {
+                selectedProcedure.ifPresent(procedure -> Collections.swap(procedureList, 0, procedureList.indexOf(procedure)));
+            }
+
+            List<User> masterList = userRepository.findAllMastersBySpecialityId(selectedProcedure.get().getSpeciality().getId());
+            Optional<User> selectedMaster = userRepository.findById(masterId);
+
+
+            if (selectedMaster.isPresent()) {
+                if (masterList.contains(selectedMaster.get())) {
+                    selectedMaster.ifPresent(master -> Collections.swap(masterList, 0, masterList.indexOf(master)));
+                } else {
+                    return "redirect:/client-home/" + client.get().getId() + "/book/procedure/" + selectedProcedure.get().getId() + "/master/" + masterList.get(0).getId() + "/date/" + date;
+                }
+            }
+
+            List<String> formattedList = requestService.getWorkingDays(masterId);
+            List<Time> slots = requestService.getTimeSlots(masterId, date, selectedProcedure.get().getDuration());
+
+            model.addAttribute("day", date + " 00:00:00");
+            model.addAttribute("timeslots", slots);
+            model.addAttribute("workDayList", formattedList);
+            model.addAttribute("masterList", masterList);
+            model.addAttribute("procedureList", procedureList);
+            model.addAttribute("request", new RequestDto());
+
+
+            model.addAttribute("request", new RequestDto());
+            model.addAttribute("client", client.get());
+            return "client/client-make-request";
+        }
+        return "error";
+    }
+
+    private Long getAuthenticatedUserId(){
+        org.springframework.security.core.userdetails.User userDetails = (org.springframework.security.core.userdetails.User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Optional<User> user = userService.findByEmail(userDetails.getUsername());
+        return user.get().getId();
+    }
 }

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html lang="en" xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+                xmlns:th="http://www.thymeleaf.org">
 
 <head>
     <meta charset="UTF-8">
@@ -15,6 +16,7 @@
 
     <!-- Stylesheet -->
     <link rel="stylesheet" href="/static/style.css">
+
 
 </head>
 
@@ -33,7 +35,7 @@
     </video>
     <div style="width: 100%; margin-top: 100px" class="container text-center">
         <a href="/">
-            <img src="https://x-lines.ru/letters/i/cyrillicfancy/1588/000000/60/0/efjfeenpew.png">
+            <img src="/static/img/core-img/logo.png">
         </a>
     </div>
     <div class="mt-xl-5 container text-center">
@@ -42,6 +44,9 @@
         <a sec:authorize="isAnonymous()" title="Registration" class="text-center h-75" href="/auth/register" style="text-decoration: none">Registration</a>
         <a title="Our team" class="text-center h-75" href="/team" style="text-decoration: none">Our team</a>
         <a sec:authorize="isAuthenticated()" title="My account" class="text-center h-75" href="/home" style="text-decoration: none">My account</a>
+    </div>
+    <div class="mt-lg-0 container text-center">
+        <a th:if="!${clientId.equals(-1)}" sec:authorize="hasAuthority('client:read')" title="Book an appointment" class="text-center h-50" th:href="@{'/client-home/' + ${clientId} + '/book'}" style="text-decoration: none; margin-bottom: 100px">Book an appointment</a>
     </div>
 </header>
 <!-- Header Area End -->
@@ -56,7 +61,7 @@
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item"><a href="/"><i class="icon_house_alt"></i> Home</a></li>
-                            <li class="breadcrumb-item active" aria-current="page">Services</li>
+                            <li class="breadcrumb-item active" aria-current="page">Price</li>
                         </ol>
                     </nav>
                 </div>

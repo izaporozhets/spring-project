@@ -14,4 +14,5 @@ public interface ProcedureRepository extends JpaRepository<Procedure, Long> {
     @Query("select procedure from Procedure procedure group by procedure.name")
     List<Procedure> findAllWithIdentityName();
 
+    Procedure findTopByOrderBySpeciality();
 }

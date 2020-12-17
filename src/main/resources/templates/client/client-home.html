@@ -1,10 +1,171 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Client home</title>
+
+    <!-- Favicon -->
+    <link rel="icon" href="./img/core-img/favicon.ico">
+
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="/static/style.css">
+
+    <link rel="preconnect" href="https://fonts.gstatic.com">
 </head>
 <body>
-<h1>CLIENT PAGE</h1>
+<!-- Our Expert Area Start -->
+<section class="akame-our-expert-area section-padding-0-0">
+
+    <div class="side-thumbnail" style="background-image: url(static/img/core-img/user.png);"></div>
+
+    <div class="container text-center">
+        <a href="/">
+            <img src="https://x-lines.ru/letters/i/cyrillicfancy/1588/000000/60/0/efjfeenpew.png">
+        </a>
+    </div>
+
+    <div class="container">
+        <div class="row justify-content-end">
+            <div class="col-12 col-lg-6">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="/"><i class="icon_house_alt"></i> Home</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Account</li>
+                    </ol>
+                </nav>
+                <!-- Section Heading -->
+                <div class="section-heading">
+                    <br><br><br>
+                    <span style="-webkit-text-stroke: 1px black; ; font-size: 55px" th:text="${client.name}">Welcome</span>
+
+                </div>
+                <div class="section-heading">
+                    <h1 class="text-center">Select service</h1>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Quis nostrud exercitation ullamco laboris nisi ut aliquip ex.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="row">
+
+                <!-- Single Team Member -->
+            <div id="requests" class="col-12 col-sm-6 col-lg-4">
+                <a th:href="@{'client-home/' + ${client.id} + '/requests'}">
+                    <div class="single-team-member mb-80 wow fadeInUp" data-wow-delay="200ms">
+                        <div class="team-member-img">
+                            <img src="/static/img/core-img/request.png" alt="">
+                        </div>
+                        <div class="team-member-info">
+                            <h5>My requests</h5>
+                            <p>Information about requests</p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+
+            <!-- Single Team Member -->
+            <div class="col-12 col-sm-6 col-lg-4">
+                <a th:href="@{'/client-home/' + ${client.id} +'/book'}">
+                    <div class="single-team-member mb-80 wow fadeInUp" data-wow-delay="400ms">
+                        <div class="team-member-img">
+                            <img src="/static/img/core-img/booking.png" alt="">
+                        </div>
+                        <div class="team-member-info">
+                            <h5>Book an appointment</h5>
+                            <p>Make request</p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+
+            <!-- Single Team Member -->
+            <div class="col-12 col-sm-6 col-lg-4">
+                <a href="#">
+                    <div class="single-team-member mb-80 wow fadeInUp" data-wow-delay="800ms">
+                        <div class="team-member-img">
+                            <img src="/static/img/core-img/settings.png" alt="">
+                        </div>
+                        <div class="team-member-info">
+                            <h5>Account settings</h5>
+                            <p>Information about account</p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+
+        </div>
+    </div>
+</section>
+<!-- Our Expert Area End -->
+<footer class="footer-area section-padding-80-0">
+    <div class="container">
+        <div class="row justify-content-between">
+
+            <!-- Single Footer Widget -->
+            <div class="col-12 col-sm-6 col-md-4">
+                <div class="single-footer-widget mb-80">
+                    <!-- Footer Logo -->
+                    <a href="#" class="footer-logo"><img src="https://x-lines.ru/letters/i/cyrillicfancy/1588/000000/22/0/efjfeenpew.png"></a>
+
+                    <p class="mb-30">We would love to serve you and let you enjoy your culinary experience. Excepteur sint occaecat cupidatat non proident.</p>
+
+                    <!-- Copywrite Text -->
+                    <div class="copywrite-text">
+                        <p><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                            Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved
+                            <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --></p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Single Footer Widget -->
+            <div class="col-12 col-sm-6 col-md-4 col-xl-3">
+                <div class="single-footer-widget mb-80">
+                    <!-- Widget Title -->
+                    <h4 class="widget-title">Opening times</h4>
+
+                    <!-- Open Times -->
+                    <div class="open-time">
+                        <p>Monday: Friday: 10.00 - 23.00</p>
+                        <p>Saturday: 10.00 - 19.00</p>
+                    </div>
+
+                    <!-- Social Info -->
+                    <div class="social-info">
+                        <a href="#" class="facebook"><i class="fa fa-facebook"></i></a>
+                        <a href="#" class="twitter"><i class="fa fa-twitter"></i></a>
+                        <a href="#" class="google-plus"><i class="fa fa-google-plus"></i></a>
+                        <a href="#" class="instagram"><i class="fa fa-instagram"></i></a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Single Footer Widget -->
+            <div class="col-12 col-md-4 col-xl-3">
+                <div class="single-footer-widget mb-80">
+
+                    <!-- Widget Title -->
+                    <h4 class="widget-title">Contact Us</h4>
+
+                    <!-- Contact Address -->
+                    <div class="contact-address">
+                        <p>Tel: (+12) 345 678 910</p>
+                        <p>E-mail: Hello.colorlib@gmail.com</p>
+                        <p>Address: Iris Watson, P.O. Box 283 8562 Fusce Rd, NY</p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</footer>
 </body>
 </html>
+
+<script>
+    var requests = document.getElementById("requests");
+    requests.addEventListener('click', function (){
+        document.requestsForm.submit();
+    })
+</script>

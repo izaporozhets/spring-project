@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Request add</title>
+    <!-- Favicon -->
+    <link rel="icon" href="./img/core-img/favicon.ico">
+
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="/static/style.css">
+
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+</head>
+<body>
+<div class="text-center" style="background-color: #e9ecef">
+    <a href="/">
+        <img src="https://x-lines.ru/letters/i/cyrillicfancy/1588/000000/60/0/efjfeenpew.png">
+    </a>
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/"><i class="icon_house_alt"></i> Home</a></li>
+            <li class="breadcrumb-item"><a href="/client-home"><i class="icon_house_alt"></i> Account</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Requests</li>
+        </ol>
+    </nav>
+
+</div>
+
+
+<!-- Our Service Area Start -->
+<section class="akame-service-area section-padding-80-0">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <!-- Section Heading -->
+                <div class="section-heading text-center">
+                    <h2>Your requests</h2>
+                    <h2>•</h2>
+                    <!-- Book Icon -->
+                    <div class="book-now-btn ">
+                        <a th:href="@{'/client-home/' + ${clientId} + '/book'}" class="btn akame-btn">Book Now</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <span th:each="request : ${requestList}">
+            <td>
+                <!-- Single Service Area -->
+                <div class="col-12 col-sm-12 col-lg-12">
+                    <div class="single-service-area mb-30 wow fadeInUp" data-wow-delay="200ms" style="background-color: #e9ecef">
+                        <img th:if="${request.procedure.getName().equals('Haircut(Male)')}" src="/static/img/core-img/haircut(male).png" alt="">
+                        <img th:if="${request.procedure.getName().equals('Pedicure')}" src="/static/img/core-img/pedicure.png" alt="">
+                        <img th:if="${request.procedure.getName().equals('Manicure')}" src="/static/img/core-img/manicure.png" alt="">
+                        <h5 th:text="${request.procedure.name}"></h5>
+                        <p th:text="'Master : ' + ${request.master}"></p>
+                        <p th:text="'Date : ' + ${request.date.toString().substring(0, 10)} + ' Time : ' + ${request.time}"></p>
+                        <div class="text-right">
+                            <span th:text="'Price : ' + ${request.procedure.cost}"><span>$</span></span>
+                        </div>
+                    </div>
+                </div>
+            </td>
+        </span>
+
+        <div th:if = "${totalPages > 1}">
+            <div class = "row col-sm-10">
+                <div class = "col-sm-2">
+                    Total Rows: [[${totalItems}]]
+                </div>
+                <div class = "col-sm-1">
+					<span th:each="i: ${#numbers.sequence(1, totalPages)}">
+						<a th:if="${currentPage != i}" th:href="@{'/client-home/'+ ${clientId} +'/requests/page/' + ${i}+ '?sortField=' + ${sortField} + '&sortDirection=' + ${sortDirection}}">[[${i}]]</a>
+						<span class="text-right" th:unless="${currentPage != i}">[[${i}]]</span>  &nbsp; &nbsp;
+					</span>
+                </div>
+                <div class = "col-sm-1">
+                    <a th:if="${currentPage < totalPages}" th:href="@{'/client-home/'+ ${clientId} +'/requests/page/' + ${currentPage + 1}+ '?sortField=' + ${sortField} + '&sortDirection=' + ${sortDirection}}">Next</a>
+                    <span th:unless="${currentPage < totalPages}">Next</span>
+                </div>
+
+                <div class="col-sm-1">
+                    <a th:if="${currentPage < totalPages}" th:href="@{'/client-home/'+ ${clientId} +'/requests/page/' + ${totalPages}+ '?sortField=' + ${sortField} + '&sortDirection=' + ${sortDirection}}">Last</a>
+                    <span th:unless="${currentPage < totalPages}">Last</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Our Service Area End -->
+
+
+<!-- Our Expert Area End -->
+<footer class="footer-area section-padding-80-0">
+    <div class="container">
+        <div class="row justify-content-between">
+
+            <!-- Single Footer Widget -->
+            <div class="col-12 col-sm-6 col-md-4">
+                <div class="single-footer-widget mb-80">
+                    <!-- Footer Logo -->
+                    <a href="#" class="footer-logo"><img src="https://x-lines.ru/letters/i/cyrillicfancy/1588/000000/22/0/efjfeenpew.png"></a>
+
+                    <p class="mb-30">We would love to serve you and let you enjoy your culinary experience. Excepteur sint occaecat cupidatat non proident.</p>
+
+                    <!-- Copywrite Text -->
+                    <div class="copywrite-text">
+                        <p><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                            Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved
+                            <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --></p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Single Footer Widget -->
+            <div class="col-12 col-sm-6 col-md-4 col-xl-3">
+                <div class="single-footer-widget mb-80">
+                    <!-- Widget Title -->
+                    <h4 class="widget-title">Opening times</h4>
+
+                    <!-- Open Times -->
+                    <div class="open-time">
+                        <p>Monday: Friday: 10.00 - 23.00</p>
+                        <p>Saturday: 10.00 - 19.00</p>
+                    </div>
+
+                    <!-- Social Info -->
+                    <div class="social-info">
+                        <a href="#" class="facebook"><i class="fa fa-facebook"></i></a>
+                        <a href="#" class="twitter"><i class="fa fa-twitter"></i></a>
+                        <a href="#" class="google-plus"><i class="fa fa-google-plus"></i></a>
+                        <a href="#" class="instagram"><i class="fa fa-instagram"></i></a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Single Footer Widget -->
+            <div class="col-12 col-md-4 col-xl-3">
+                <div class="single-footer-widget mb-80">
+
+                    <!-- Widget Title -->
+                    <h4 class="widget-title">Contact Us</h4>
+
+                    <!-- Contact Address -->
+                    <div class="contact-address">
+                        <p>Tel: (+12) 345 678 910</p>
+                        <p>E-mail: Hello.colorlib@gmail.com</p>
+                        <p>Address: Iris Watson, P.O. Box 283 8562 Fusce Rd, NY</p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</footer>
+
+</body>
+</html>

@@ -15,6 +15,8 @@ import java.util.List;
 
 public interface UserRepository extends JpaRepository<User, Long> {
 
+    User findFirstByRole(Role role);
+
     Page<User> findAllPaginatedByRole(Pageable var1, Role role);
 
     List<User> findAllByRole(Role role);

@@ -7,7 +7,7 @@ import java.util.stream.Collectors;
 
 public enum Role {
     UNKNOWN(Set.of(Permission.UNKNOWN_READ)),
-    CLIENT(Set.of(Permission.CLIENT_READ)),
+    CLIENT(Set.of(Permission.CLIENT_READ, Permission.CLIENT_WRITE)),
     MASTER(Set.of(Permission.MASTER_READ)),
     ADMIN(Set.of(Permission.DEVELOPERS_READ, Permission.DEVELOPERS_WRITE));
 

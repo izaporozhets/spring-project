@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <!-- Favicon -->
+    <link rel="icon" href="/static/img/core-img/favicon.ico">
+    <!-- Stylesheet -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+    <!-- Compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/js/materialize.min.js"></script>
+
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+</head>
+<body>
+
+<div class="row center-align" style="background-color: #e9ecef">
+    <a href="/">
+        <img src="/static/img/core-img/logo.png">
+    </a>
+</div>
+
+<br><br>
+<div class="container" style="width: 500px">
+    <form th:action="@{/save-request}" th:object="${request}" method="post">
+
+            <div hidden>
+                <select id="client" th:field="*{client}">
+                    <option value="Client"disabled selected>Client</option>
+                    <tr th:each="client : ${client}">
+                        <option th:value="${client.id}" th:text="${client}"></option>
+                    </tr>
+                </select>
+                <label>Client</label>
+            </div>
+
+            <div class="col s6">
+                <select class="custom-select" id="procedure" th:field="*{procedure}">
+                    <option value="" disabled selected>Procedure</option>
+                    <tr th:each="procedure : ${procedureList}">
+                        <option th:value="${procedure.id}" th:text="${procedure}"></option>
+                    </tr>
+                </select>
+            </div>
+
+            <br><br>
+
+            <div class="col s6">
+                <select class="custom-select" id="master" th:field="*{master}">
+                    <option value="" disabled selected>Master</option>
+                    <tr th:each="master : ${masterList}">
+                        <option th:value="${master.id}" th:text="${master}"></option>
+                    </tr>
+                </select>
+            </div>
+
+            <br><br>
+
+            <input th:value="${day.substring(0,10)}" name="date" id="date" type="text" class="datepicker col s6">
+
+            <br><br>
+
+            <div class="col s6">
+                <select id="timeslot" th:field="*{time}">
+                    <option value="Timeslot"disabled selected>Time</option>
+                    <tr th:each="slot : ${timeslots}">
+                        <option th:value="${slot.toString()}" th:text="${slot.toString()}"></option>
+                    </tr>
+                </select>
+                <label for="timeslot">Time</label>
+            </div>
+
+            <br><br>
+
+            <button class="waves-effect grey lighten-4 btn-large" type="submit" name="action" style="margin-left: 34%; color: black">Submit
+                <i class="material-icons right">send</i>
+            </button>
+    </form>
+</div>
+<input hidden type="text" id="daysAttribute" th:value="${workDayList}"/>
+
+</body>
+</html>
+
+<script>
+    $(document).ready(function(){
+        var date = new Date(), y = date.getFullYear(), m = date.getMonth();
+        var lastDay = new Date(y, m + 1, 0);
+
+        $('select').formSelect();
+        $('.datepicker').datepicker({
+            format: 'yyyy-mm-dd',
+            defaultDate: $("#date").val(),
+            autoClose: true,
+            disableDayFn:function (date){
+                var days = $("#daysAttribute");
+
+                if(days != null){
+                    return !days.val().includes(date.toDateString());
+                }
+            },
+            minDate: new Date(),
+            maxDate: lastDay
+        });
+
+    });
+
+    $(document).ready(function(){
+
+        if($('#timeslot').val() === null){
+
+            swal({
+                title: "Chosen master does not work on this day",
+                text: "change request time please",
+                icon: "error",
+                button: "Got it",
+            });
+        }
+    });
+
+    $(function (){
+
+        var clientId = $('#client').val();
+
+        $('#procedure').on('change', function (){
+            var procedure = $(this).val();
+            if(procedure){
+                window.location = "/client-home/" + clientId + "/book/procedure/"+ procedure + "/master/" + $('#master').val()+"/date/"+ $('#date').val();
+            }
+        })
+
+        $('#master').on('change', function (){
+            var master = $(this).val();
+            if(master){
+                window.location = "/client-home/" + clientId + "/book/procedure/"+ $('#procedure').val() + "/master/" + master +"/date/"+ $('#date').val();
+            }
+        })
+
+        $('#date').on('change', function (){
+            var date = $(this).val();
+            if(date){
+                window.location = "/client-home/" + clientId + "/book/procedure/"+ $('#procedure').val() + "/master/" + $('#master').val() +"/date/"+ date;
+            }
+        })
+
+    })
+</script>
