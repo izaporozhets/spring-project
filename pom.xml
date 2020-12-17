@@ -14,11 +14,6 @@
     <name>beautysaloon</name>
     <description>Spring beauty saloon project</description>
 
-    <properties>
-        <java.version>9</java.version>
-    </properties>
-
-
     <dependencies>
 
         <dependency>
