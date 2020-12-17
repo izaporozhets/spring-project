@@ -15,9 +15,9 @@
     <description>Spring beauty saloon project</description>
 
     <properties>
-        <maven.compiler.target>1.9</maven.compiler.target>
-        <maven.compiler.source>1.9</maven.compiler.source>
-        <java.version>1.8</java.version>
+        <maven.compiler.target>11</maven.compiler.target>
+        <maven.compiler.source>11</maven.compiler.source>
+        <java.version>11</java.version>
     </properties>
 
     <dependencies>
