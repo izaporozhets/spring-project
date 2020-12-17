@@ -3,16 +3,13 @@ package com.springproject.beautysaloon.controller;
 import com.springproject.beautysaloon.dto.*;
 import com.springproject.beautysaloon.model.*;
 import com.springproject.beautysaloon.repository.*;
-import com.springproject.beautysaloon.security.JwtTokenProvider;
-import com.springproject.beautysaloon.validator.LoginValidator;
-import com.springproject.beautysaloon.validator.UserValidator;
 import com.springproject.beautysaloon.service.FeedbackService;
-import com.springproject.beautysaloon.service.ProcedureService;
 import com.springproject.beautysaloon.service.RequestService;
 import com.springproject.beautysaloon.service.UserService;
+import lombok.extern.java.Log;
+import org.springframework.core.env.Environment;
 import org.springframework.data.domain.Page;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -27,6 +24,7 @@ import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
+@Log
 @Controller
 public class MainController {
 
@@ -36,20 +34,23 @@ public class MainController {
     private final RequestService requestService;
     private final FeedbackService feedbackService;
     private final UserService userService;
+    private final Environment environment;
     private final PasswordEncoder passwordEncoder;
 
-    public MainController(SpecialityRepository specialityRepository, WorkDayRepository workDayRepository, RequestRepository requestRepository, RequestService requestService, FeedbackService feedbackService, UserService userService, PasswordEncoder passwordEncoder) {
+    public MainController(SpecialityRepository specialityRepository, WorkDayRepository workDayRepository, RequestRepository requestRepository, RequestService requestService, FeedbackService feedbackService, UserService userService, Environment environment, PasswordEncoder passwordEncoder) {
         this.specialityRepository = specialityRepository;
         this.workDayRepository = workDayRepository;
         this.requestRepository = requestRepository;
         this.requestService = requestService;
         this.feedbackService = feedbackService;
         this.userService = userService;
+        this.environment = environment;
         this.passwordEncoder = passwordEncoder;
     }
 
     @GetMapping("")
     public String getIndexPage(Model model) {
+        log.severe(environment.getProperty("local.server.port"));
         model.addAttribute("clientId", getAuthenticatedUserId());
         return "index";
     }
