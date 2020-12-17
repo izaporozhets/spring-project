@@ -51,6 +51,7 @@ public class MainController {
     @GetMapping("")
     public String getIndexPage(Model model) {
         log.severe(environment.getProperty("local.server.port"));
+        System.out.println(environment.getProperty("local.server.port"));
         model.addAttribute("clientId", getAuthenticatedUserId());
         return "index";
     }
