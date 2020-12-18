@@ -73,7 +73,7 @@
                 <div class="card-content">
                     <div class="form-field">
                         <i class="material-icons">email</i>
-                        <label for="email">Username</label>
+                        <label for="email">Email</label>
                         <input type="text" name="email" id="email" th:value="${loginDto.email}" th:field="*{email}">
                         <p class="red-text" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></p>
                     </div><br>

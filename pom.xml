@@ -15,11 +15,10 @@
     <description>Spring beauty saloon project</description>
 
     <properties>
-        <maven.compiler.target>11</maven.compiler.target>
-        <maven.compiler.source>11</maven.compiler.source>
+        <maven.compiler.target>1.9</maven.compiler.target>
+        <maven.compiler.source>1.9</maven.compiler.source>
         <java.version>11</java.version>
     </properties>
-
 
     <dependencies>
 
@@ -112,8 +111,9 @@
     <build>
         <plugins>
             <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.8.1</version>
             </plugin>
         </plugins>
     </build>
