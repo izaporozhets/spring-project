@@ -12,7 +12,7 @@
     <groupId>com.spring-project</groupId>
     <artifactId>beautysaloon</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>beautysaloon</name>
+    <name>BeautysaloonApplication</name>
     <description>Spring beauty saloon project</description>
 
     <properties>
