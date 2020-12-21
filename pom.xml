@@ -9,6 +9,7 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
 
+
     <groupId>com.spring-project</groupId>
     <artifactId>beautysaloon</artifactId>
     <version>0.0.1-SNAPSHOT</version>
@@ -129,7 +130,7 @@
                         <manifest>
                             <addClasspath>true</addClasspath>
                             <classpathPrefix>com.springproject.beautysaloon</classpathPrefix>
-                            <mainClass>BeautysaloonApplication</mainClass>
+                            <mainClass>com.springproject.beautysaloon.BeautysaloonApplication</mainClass>
                         </manifest>
                     </archive>
                 </configuration>
