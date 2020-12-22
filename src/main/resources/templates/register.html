@@ -49,14 +49,14 @@
                     <div class="form-field">
                         <i class="material-icons">security</i>
                         <label for="password">Password</label>
-                        <input type="text" name="password" id="password"  th:field="*{password}"/>
+                        <input type="password" name="password" id="password"  th:field="*{password}"/>
                         <p class="red-text" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></p>
                     </div><br>
 
                     <div class="form-field">
                         <i class="material-icons">security</i>
                         <label for="confirmPassword">Repeat password</label>
-                        <input type="text" name="confirmPassword" id="confirmPassword" th:field="*{confirmPassword}"/>
+                        <input type="password" name="confirmPassword" id="confirmPassword" th:field="*{confirmPassword}"/>
                         <p class="red-text" th:if="${#fields.hasErrors('confirmPassword')}" th:errors="*{confirmPassword}"></p>
                     </div><br>
 

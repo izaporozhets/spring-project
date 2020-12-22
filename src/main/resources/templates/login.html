@@ -81,7 +81,7 @@
                     <div class="form-field">
                         <i class="material-icons">security</i>
                         <label for="password">Password</label>
-                        <input type="text" name="password" id="password" th:value="${loginDto.password}" th:field="*{password}"/>
+                        <input type="password" name="password" id="password" th:value="${loginDto.password}" th:field="*{password}"/>
                         <p class="red-text" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></p>
                     </div><br>
 
